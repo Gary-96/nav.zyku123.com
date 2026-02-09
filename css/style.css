@@ -1,0 +1,901 @@
+/* =========================================
+   2026 优创资源导航 - 全局滚动吸附版 (Sticky Scroll Fix)
+   ========================================= */
+
+/* ----------------------------------
+   1. 变量与基础 (Variables & Base)
+   ---------------------------------- */
+:root {
+    /* 核心布局尺寸 */
+    --header-height: 64px;    /* 顶部导航高度 */
+    --search-total-height: 188px; /* NEW: 搜索区的固定总高度，用于精确计算 */
+    --sidebar-width: 200px;   /* 侧边栏宽度 */
+    --layout-gap: 24px;       /* 布局间距 */
+    --layout-max-width: 1600px;
+
+    /* 圆角与阴影 */
+    --radius-box: 16px;       
+    --radius-card: 12px;      
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.03); 
+    --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.06);
+
+    /* 颜色系统 */
+    --bg-page: #f4f6f9;       /* 页面背景 */
+    --bg-white: #ffffff;
+    --primary: #3b82f6;       
+    --primary-light: #eff6ff; 
+    --text-main: #1f2937;
+    --text-sub: #6b7280;
+    --border-color: #e5e7eb;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    outline: none;
+}
+
+html {
+    scroll-behavior: smooth; /* 平滑滚动效果 */
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    line-height: 1.5;
+    
+    overflow-x: hidden;
+    overflow-y: auto; 
+    height: auto;
+    min-height: 100vh;
+    
+    padding-top: var(--header-height);
+    
+    /* 容器调整：flex布局确保页脚在底部 */
+    display: flex;
+    flex-direction: column;
+}
+
+a { text-decoration: none; color: inherit; transition: all 0.2s; }
+ul { list-style: none; }
+img { display: block; max-width: 100%; }
+
+/* ----------------------------------
+   2. 顶部导航 (Fixed Header)
+   ---------------------------------- */
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 30px;
+}
+
+.header-inner {
+    width: 100%;
+    max-width: var(--layout-max-width);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.logo {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.search-center { display: none; } 
+
+.header-links a {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    margin-left: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.header-links a:hover { color: var(--primary); }
+
+/* ----------------------------------
+   3. 搜索区 (Sticky Search Container)
+   ---------------------------------- */
+.search-container {
+    position: relative; /* 修改为relative，跟随滚动 */
+    z-index: 900;
+    
+    width: 100%;
+    /* MODIFIED: Use a fixed height for predictable layout */
+    height: var(--search-total-height);
+    
+    background-color: #f1f5f9; 
+    border-bottom: 1px solid #e2e8f0;
+    
+    transition: box-shadow 0.3s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    /* NEW: Prevent content overflow from breaking the fixed height */
+    overflow: hidden;
+}
+
+.search-inner {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: 24px 30px;
+}
+
+/* 搜索分类菜单 */
+.search-categories {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    /* MODIFIED: Prevent wrapping to maintain parent's fixed height */
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    /* NEW: Hide the scrollbar for a cleaner look */
+    scrollbar-width: none; /* For Firefox */
+}
+/* NEW: Hide scrollbar for Webkit browsers (Chrome, Safari) */
+.search-categories::-webkit-scrollbar {
+    display: none;
+}
+
+
+.category-item {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.category-item:hover { background: #e5e7eb; color: var(--text-main); }
+.category-item.active {
+    color: var(--primary);
+    background: var(--primary-light);
+    font-weight: 600;
+}
+
+/* 搜索输入框区域 */
+.search-input-area { margin-bottom: 16px; }
+.search-form { max-width: 640px; margin: 0 auto; }
+
+.search-input-wrapper {
+    display: flex;
+    align-items: center;
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    height: 50px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.search-input-wrapper:focus-within {
+    border-color: #94a3b8;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    padding: 0 20px;
+    font-size: 16px;
+    height: 100%;
+    background: transparent;
+    color: #1e293b;
+}
+
+.search-input::placeholder {
+    color: #94a3b8;
+}
+
+.search-button {
+    width: 60px;
+    height: 100%;
+    border: none;
+    background: #64748b;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+
+.search-button:hover { 
+    background: #475569;
+    transform: scale(1.02);
+}
+
+/* 引擎切换 */
+.engine-switcher {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    /* MODIFIED: Prevent wrapping to maintain parent's fixed height */
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    /* NEW: Hide the scrollbar for a cleaner look */
+    scrollbar-width: none; /* For Firefox */
+}
+/* NEW: Hide scrollbar for Webkit browsers (Chrome, Safari) */
+.engine-switcher::-webkit-scrollbar {
+    display: none;
+}
+
+.engine-item {
+    font-size: 13px;
+    color: #888;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+.engine-item:hover { color: var(--primary); background: #fff; }
+.engine-item.active { color: var(--primary); background: #fff; font-weight: 600; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+
+/* ----------------------------------
+   4. 全局容器 (Layout Container)
+   ---------------------------------- */
+.app-container {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding-top: 0; 
+    padding-bottom: 60px;
+    padding-left: 24px;
+    padding-right: 24px;
+    
+    /* 关键布局修改：使用flex布局 */
+    display: flex;
+    align-items: flex-start;
+    
+    /* 弹性填充：自动撑开空间，将footer推至底部 */
+    flex: 1;
+    
+    height: auto;
+    overflow: visible !important; /* 紧急修复：强制可见 */ 
+}
+
+/* ----------------------------------
+   5. 侧边栏 (Sidebar - Sticky)
+   ---------------------------------- */
+.sidebar-wrapper {
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+    
+    /* 初始间距：与搜索框保持20px视觉间距 */
+    margin-top: 20px;
+    
+    /* 侧边栏吸附效果：sticky定位 */
+    position: sticky !important;
+    top: calc(var(--header-height) + 20px); /* 距离Header底部20px时锁定，保留呼吸感 */
+    
+    /* 核心：宽度自适应 */
+    width: auto !important;
+    min-width: 140px !important; /* 设置一个最小保底宽度 */
+    max-width: 200px !important; /* 防止极端情况下太宽 */
+    
+    /* 彻底移除溢出裁剪，确保二级菜单完全可见 - 紧急修复 */
+    overflow: visible !important;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+    z-index: 1001; /* 提高层级，确保二级菜单不被遮挡 */
+    
+    background: rgba(255, 255, 255, 0.9) !important; /* 增加高级感 */
+    backdrop-filter: blur(10px) !important; /* 毛玻璃效果 */
+    border: 1px solid rgba(240, 242, 245, 0.8) !important; /* 细边框更高级 */
+    border-radius: 16px !important; /* 圆角边框对齐卡片风格 */
+    padding: 10px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03) !important;
+}
+
+/* 菜单项 */
+.sidebar-menu {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    height: auto !important;
+    padding: 0 !important;
+    gap: 2px !important;
+    
+    /* 内部滚动实现 - 紧急修复：强制visible */
+    max-height: calc(100vh - 300px); /* 增加高度，让边框可以向下拉长 */
+    overflow-y: auto !important;
+    overflow-x: visible !important; /* 强制水平可见 */
+    overflow: visible !important; /* 强制完全可见 */
+    
+    /* 自定义滚动条样式 - 极简设计 */
+    scrollbar-width: none; /* Firefox 隐藏默认滚动条 */
+}
+
+/* Webkit 滚动条样式 */
+.sidebar-menu::-webkit-scrollbar {
+    width: 4px; /* 极窄滚动条 */
+}
+
+.sidebar-menu::-webkit-scrollbar-track {
+    background: transparent; /* 轨道透明 */
+}
+
+.sidebar-menu::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15); /* 半透明灰色 */
+    border-radius: 2px; /* 圆角 */
+    opacity: 0; /* 默认隐藏 */
+    transition: opacity 0.3s ease;
+}
+
+/* 仅在悬停时显示滚动条 */
+.sidebar-menu:hover::-webkit-scrollbar-thumb {
+    opacity: 1;
+}
+
+/* 菜单项 */
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px; /* 适度松绑的内边距 */
+    color: var(--text-sub);
+    text-decoration: none;
+    border-radius: 8px; /* 更现代的圆角 */
+    font-size: 14px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    line-height: 1.2; /* 减小行高 */
+    letter-spacing: normal; /* 还原自然的字符形状 */
+}
+
+/* 图标规范化 */
+.menu-item i {
+    margin-right: 12px; /* 统一图标与文字间距 */
+    font-size: 14px;
+    width: 20px; /* 固定容器宽度 */
+    height: 14px;
+    text-align: center;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 强制单行不换行 + 分散对齐 */
+.menu-item span {
+    display: flex !important;
+    white-space: nowrap !important; /* 强制文字在一行显示，严禁折行 */
+    width: 82px; /* 固定宽度 */
+    justify-content: space-between; /* 两端定位，字符均匀分布 */
+    font-weight: 500;
+    text-align-last: justify; /* 分散对齐 */
+    text-justify: inter-character; /* 字符级别对齐 */
+}
+
+.menu-item:hover { background-color: #f9fafb; color: var(--primary); }
+.menu-item:hover i { color: var(--primary); }
+.menu-item.active { background-color: var(--primary-light); color: var(--primary); }
+.menu-item.active i { color: var(--primary); }
+
+/* 二级菜单样式 - 通用化处理 */
+.menu-item-wrapper {
+    position: relative;
+}
+
+.submenu-dropdown {
+    position: absolute;
+    left: 100%; /* 紧贴一级菜单 */
+    top: 0;
+    width: 320px; /* 固定宽度 */
+    max-height: 400px; /* 最大高度 */
+    background: #ffffff !important; /* 紧急修复：明显背景色 */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(240, 242, 245, 0.8);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-10px); /* 初始位置偏移 */
+    transition: all 0.3s ease;
+    z-index: 99999; /* 紧急修复：最高层级 */
+    padding: 16px; /* 紧凑内边距 */
+    pointer-events: none; /* 防止隐藏状态下误触 */
+    overflow-y: auto; /* 滚动支持 */
+    overflow-x: hidden; /* 隐藏横向滚动 */
+}
+
+/* 高优先级悬停触发 - 确保覆盖默认隐藏状态 */
+.menu-item-wrapper:hover .submenu-dropdown {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(0) !important; /* 滑入到正确位置 */
+    pointer-events: auto !important; /* 显示状态下可交互 */
+}
+
+.submenu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 两列布局 */
+    gap: 8px; /* 适当缩小间距，使布局更紧凑 */
+}
+
+.submenu-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px; /* 缩小内边距，更紧凑 */
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-sub);
+    font-size: 13px;
+    transition: all 0.2s ease;
+    background: transparent;
+    border: 1px solid transparent;
+}
+
+.submenu-item span {
+    white-space: nowrap; /* 强制单行 */
+    overflow: hidden; /* 防止溢出 */
+    text-overflow: ellipsis; /* 超长文字显示省略号 */
+}
+
+.submenu-item:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+    border-color: var(--primary);
+    transform: translateY(-1px);
+}
+
+.submenu-item i {
+    margin-right: 8px;
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.submenu-item span {
+    font-weight: 500;
+}
+
+/* ----------------------------------
+   6. 内容区 (Main Content)
+   ---------------------------------- */
+.main-content {
+    /* 内容区自适应 */
+    flex: 1;
+    margin-left: var(--layout-gap); /* 使用布局间距 */
+    min-height: 100vh;
+    
+    /* 增加呼吸感：与搜索框留出明显空白 */
+    padding-top: 24px;
+    
+    /* 彻底移除高度限制和独立滚动，使用body自然滚动 */
+    height: auto;
+    overflow-y: visible;
+    
+    /* 设置flex布局，确保类目垂直整齐排列 */
+    display: flex;
+    flex-direction: column;
+    gap: 0; /* 移除gap，使用section的margin-bottom控制间距 */
+}
+
+.content-section {
+    /* 移除margin，使用父容器的gap控制间距 */
+    /* 同步锚点：确保跳转后间距与首页显示一致 */
+    /* Header高度64px + main-content的24px + 额外间距12px = 100px */
+    scroll-margin-top: 100px;
+    
+    /* 视觉岛屿设计 */
+    background: #f8fafc; /* 非常淡的背景色 */
+    border-radius: 20px; /* 圆角岛屿效果 */
+    padding: 24px; /* 内边距优化 */
+    margin-bottom: 40px; /* 间距拉开，用空白分割 */
+    
+    /* 微弱内阴影增加层次感 */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.section-title h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 12px; /* 增加左侧内边距 */
+    position: relative; /* 为装饰条定位 */
+}
+
+/* 标题左侧彩色装饰条 */
+.section-title h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 20px;
+    background: #3b82f6; /* 蓝色装饰条 */
+    border-radius: 2px;
+}
+.section-title h2 i { color: var(--primary); font-size: 18px; }
+
+/* Section Header - 标题 + 竖线 + Tab 同行布局 */
+.section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111;
+    margin: 0; /* 移除默认margin */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0; /* 防止压缩 */
+}
+
+.section-header h2 i { 
+    color: var(--primary); 
+    font-size: 18px; 
+}
+
+.title-separator {
+    color: #e5e7eb; /* 浅灰色竖线 */
+    margin: 0 15px; /* 左右外边距 */
+    font-size: 18px; /* 与一级标题保持一致 */
+    font-weight: 300;
+    flex-shrink: 0; /* 防止压缩 */
+}
+
+/* 内容区Tab栏 - 在header内使用 */
+.section-header .sub-category-tabs {
+    display: flex;
+    overflow-x: auto; /* 横向滑动 */
+    white-space: nowrap; /* 强制单行 */
+    gap: 8px;
+    flex: 1; /* 占据剩余空间 */
+    margin: 0; /* 移除默认margin */
+    padding: 0; /* 移除默认padding */
+    /* 隐藏滚动条 */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+.section-header .sub-category-tabs::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/Opera */
+}
+
+.sub-category-tab {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: #f8f9fa;
+    color: #6c757d;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    flex-shrink: 0; /* 防止压缩 */
+}
+
+.sub-category-tab:hover {
+    background: #e9ecef;
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.sub-category-tab.active {
+    background: white; /* 白色背景 */
+    color: var(--primary); /* 蓝色文字 */
+    font-weight: 500; /* 适度加粗 */
+    border: 1px solid var(--primary); /* 1px蓝色边框 */
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15); /* 淡淡的蓝色投影 */
+    /* 移除下划线，使用边框和投影代替 */
+    position: relative;
+}
+
+.sub-category-tab.active::after {
+    display: none; /* 隐藏下划线 */
+}
+
+.card-group {
+    transition: all 0.3s ease;
+    transform-origin: center;
+    /* 初始加载动画 */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+/* 卡片淡入动画 */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 为不同卡片添加延迟动画 */
+.card-group:nth-child(1) { animation-delay: 0.1s; }
+.card-group:nth-child(2) { animation-delay: 0.2s; }
+.card-group:nth-child(3) { animation-delay: 0.3s; }
+.card-group:nth-child(4) { animation-delay: 0.4s; }
+.card-group:nth-child(5) { animation-delay: 0.5s; }
+.card-group:nth-child(6) { animation-delay: 0.6s; }
+
+/* Grid 6列 */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+/* ----------------------------------
+   7. 卡片样式 (Cards)
+   ---------------------------------- */
+.nav-card {
+    background: var(--bg-white);
+    border: 1px solid transparent;
+    border-radius: var(--radius-card);
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 72px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    position: relative;
+    overflow: visible;
+}
+.nav-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(59, 130, 246, 0.1);
+    z-index: 2;
+}
+
+/* 全局卡片悬浮提示 - 专门针对.nav-card */
+.nav-card::after {
+    content: attr(data-description);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease 0.2s; /* 200ms延迟 */
+    z-index: 9999;
+    pointer-events: none;
+    margin-bottom: 8px;
+}
+
+.nav-card::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease 0.2s; /* 200ms延迟 */
+    z-index: 9999;
+    pointer-events: none;
+    margin-bottom: 2px;
+}
+
+.nav-card:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.nav-card:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+.nav-card-icon {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    flex-shrink: 0;
+    object-fit: cover;
+    background: #f3f4f6;
+    border: 1px solid #f3f4f6;
+}
+
+.card-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.card-info h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.card-info p {
+    font-size: 12px;
+    color: var(--text-sub);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ----------------------------------
+   8. 页脚
+   ---------------------------------- */
+.main-footer {
+    width: 100%;
+    padding: 30px 0;
+    margin-top: auto; /* 边距修正：自动推至底部 */
+    border-top: 1px solid rgba(240, 242, 245, 0.8);
+    background: rgba(248, 249, 250, 0.9); /* 半透明背景 */
+    backdrop-filter: blur(10px); /* 磨砂玻璃效果 */
+    text-align: center;
+}
+
+.footer-content p {
+    margin: 5px 0;
+    color: #999;
+    font-size: 13px;
+}
+
+.brand-text {
+    font-weight: 600;
+    color: #333;
+}
+
+.tech-support {
+    color: #007bff !important; /* 突出品牌链接颜色 */
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.tech-support:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+.footer-link {
+    color: #666 !important;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+    color: var(--primary) !important;
+    text-decoration: underline;
+}
+
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+    .main-footer {
+        padding: 20px 0;
+    }
+}
+
+/* ----------------------------------
+   9. 响应式 (Responsive)
+   ---------------------------------- */
+
+/* 1400px以下 */
+@media screen and (max-width: 1400px) {
+    .card-grid { grid-template-columns: repeat(5, 1fr); }
+}
+
+/* 1200px以下 */
+@media screen and (max-width: 1200px) {
+    :root { --sidebar-width: 160px; } /* 减小侧边栏宽度 */
+    .card-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); } /* 使用自适应网格 */
+}
+
+/* 768px-1200px 平板端优化 */
+@media screen and (min-width: 769px) and (max-width: 1200px) {
+    .main-content {
+        margin-left: var(--layout-gap); /* 保持布局间距 */
+        flex: 1; /* 增加内容区弹性 */
+    }
+    
+    .sidebar-wrapper {
+        width: var(--sidebar-width);
+        position: sticky; /* 保持固定定位 */
+        top: var(--header-height);
+        height: calc(100vh - var(--header-height));
+        overflow-y: auto;
+    }
+}
+
+/* 768px以下 (平板/手机) */
+@media screen and (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    /* 侧边栏响应式处理 - 取消固定定位 */
+    .sidebar-wrapper {
+        width: 100%;
+        position: static !important; /* 取消固定定位 */
+        top: auto !important;
+        left: auto !important;
+        bottom: auto !important;
+        height: auto !important;
+        max-height: none;
+        overflow-y: visible !important;
+        z-index: auto !important;
+        background: var(--bg-white) !important;
+        border-radius: var(--radius-box) !important;
+        border-right: none !important;
+    }
+    /* 移动端隐藏二级菜单 */
+    .submenu-dropdown {
+        display: none !important;
+    }
+    
+    .sidebar-menu { flex-direction: row; gap: 10px; }
+    .menu-item { background: #f9fafb; }
+    
+    /* 主内容区适配移动端 */
+    .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        min-height: auto;
+    }
+    
+    .card-grid { grid-template-columns: repeat(3, 1fr); }
+    
+    /* 搜索容器不再 Sticky，避免占屏太多 */
+    .search-container { 
+        position: static;
+        /* MODIFIED: Revert to auto height on mobile */
+        height: auto;
+    }
+    .search-inner { padding: 20px 16px; }
+}
+
+/* 768px以下 (手机) */
+@media screen and (max-width: 768px) {
+    .card-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .nav-card { padding: 10px; }
+}
