@@ -2189,7 +2189,7 @@ lesshat-selector {
     position: relative
 }
 
-.profile-env .user-timeline-stories .timeline-story .story-audio-item .audio-track-timeline .track-timeline .track-timeline-empty .track-fill {
+.profile-env .user-timeline-stories .timeline-story .story-audio-item .audio-track-timeline .track-timeline .track-fill {
     position: absolute;
     left: 0;
     top: 0;
@@ -2780,8 +2780,8 @@ lesshat-selector {
     .timeline-centered .timeline-entry.left-aligned .timeline-entry-inner .timeline-label:after {
         left: 0;
         right: auto;
-        margin-left: -9px;
-        margin-right: 0;
+        margin-left: 0;
+        margin-right: -9px;
         -webkit-transform: rotate(0deg);
         -moz-transform: rotate(0deg);
         -o-transform: rotate(0deg);
@@ -2996,7 +2996,7 @@ lesshat-selector {
 .notes-env .notes-list .write-pad textarea {
     background: 0 0;
     border: none;
-    background: url(../images/notes-lines.png) left top;
+    background: url(../images/notes-lines.webp) left top;
     background-attachment: local;
     min-height: 780px;
     font: 14px/52px Arimo, "Helvetica Neue", Helvetica, Arial, sans-serif, serif;
@@ -3544,7 +3544,7 @@ button.toast-close-button {
 .login-page .login-form {
     position: relative;
     padding: 30px;
-    margin-bottom: 20px
+    margin-bottom: 30px
 }
 
 .login-page .login-form.fade-in-effect {

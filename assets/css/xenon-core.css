@@ -4988,7 +4988,7 @@ body.chat-open #chat {
 
 .cbr-replaced .cbr-state span {
     display: block;
-    background: url(../images/ok.png) no-repeat center center;
+    background: url(../images/ok.webp) no-repeat center center;
     background-image: none;
     position: absolute;
     left: 0;
@@ -4999,7 +4999,7 @@ body.chat-open #chat {
 }
 
 .cbr-replaced.cbr-checked span {
-    background-image: url(../images/ok.png)
+    background-image: url(../images/ok.webp)
 }
 
 .cbr-replaced.cbr-disabled {
@@ -5043,7 +5043,7 @@ body.chat-open #chat {
 }
 
 .cbr-replaced.cbr-primary.cbr-checked span {
-    background-image: url(../images/ok-white-full.png)
+    background-image: url(../images/ok-white-full.webp)
 }
 
 .cbr-replaced.cbr-primary.cbr-radio .cbr-state {
@@ -5064,7 +5064,7 @@ body.chat-open #chat {
 }
 
 .cbr-replaced.cbr-secondary.cbr-checked span {
-    background-image: url(../images/ok-white-full.png)
+    background-image: url(../images/ok-white-full.webp)
 }
 
 .cbr-replaced.cbr-secondary.cbr-checked.cbr-radio .cbr-state span {
@@ -5081,7 +5081,7 @@ body.chat-open #chat {
 }
 
 .cbr-replaced.cbr-success.cbr-checked span {
-    background-image: url(../images/ok-white-full.png)
+    background-image: url(../images/ok-white-full.webp)
 }
 
 .cbr-replaced.cbr-success.cbr-checked.cbr-radio .cbr-state span {
@@ -5098,7 +5098,7 @@ body.chat-open #chat {
 }
 
 .cbr-replaced.cbr-info.cbr-checked span {
-    background-image: url(../images/ok-white-full.png)
+    background-image: url(../images/ok-white-full.webp)
 }
 
 .cbr-replaced.cbr-info.cbr-checked.cbr-radio .cbr-state span {
@@ -5115,7 +5115,7 @@ body.chat-open #chat {
 }
 
 .cbr-replaced.cbr-danger.cbr-checked span {
-    background-image: url(../images/ok-white-full.png)
+    background-image: url(../images/ok-white-full.webp)
 }
 
 .cbr-replaced.cbr-danger.cbr-checked.cbr-radio .cbr-state span {
@@ -5132,7 +5132,7 @@ body.chat-open #chat {
 }
 
 .cbr-replaced.cbr-warning.cbr-checked span {
-    background-image: url(../images/ok-white-full.png)
+    background-image: url(../images/ok-white-full.webp)
 }
 
 .cbr-replaced.cbr-warning.cbr-checked.cbr-radio .cbr-state span {
@@ -5149,7 +5149,7 @@ body.chat-open #chat {
 }
 
 .cbr-replaced.cbr-red.cbr-checked span {
-    background-image: url(../images/ok-white-full.png)
+    background-image: url(../images/ok-white-full.webp)
 }
 
 .cbr-replaced.cbr-red.cbr-checked.cbr-radio .cbr-state span {
@@ -5166,7 +5166,7 @@ body.chat-open #chat {
 }
 
 .cbr-replaced.cbr-blue.cbr-checked span {
-    background-image: url(../images/ok-white-full.png)
+    background-image: url(../images/ok-white-full.webp)
 }
 
 .cbr-replaced.cbr-blue.cbr-checked.cbr-radio .cbr-state span {
@@ -5183,7 +5183,7 @@ body.chat-open #chat {
 }
 
 .cbr-replaced.cbr-purple.cbr-checked span {
-    background-image: url(../images/ok-white-full.png)
+    background-image: url(../images/ok-white-full.webp)
 }
 
 .cbr-replaced.cbr-purple.cbr-checked.cbr-radio .cbr-state span {
@@ -5200,7 +5200,7 @@ body.chat-open #chat {
 }
 
 .cbr-replaced.cbr-pink.cbr-checked span {
-    background-image: url(../images/ok-white-full.png)
+    background-image: url(../images/ok-white-full.webp)
 }
 
 .cbr-replaced.cbr-pink.cbr-checked.cbr-radio .cbr-state span {
@@ -5217,7 +5217,7 @@ body.chat-open #chat {
 }
 
 .cbr-replaced.cbr-orange.cbr-checked span {
-    background-image: url(../images/ok-white-full.png)
+    background-image: url(../images/ok-white-full.webp)
 }
 
 .cbr-replaced.cbr-orange.cbr-checked.cbr-radio .cbr-state span {
@@ -5234,7 +5234,7 @@ body.chat-open #chat {
 }
 
 .cbr-replaced.cbr-turquoise.cbr-checked span {
-    background-image: url(../images/ok-white-full.png)
+    background-image: url(../images/ok-white-full.webp)
 }
 
 .cbr-replaced.cbr-turquoise.cbr-checked.cbr-radio .cbr-state span {
@@ -5251,7 +5251,7 @@ body.chat-open #chat {
 }
 
 .cbr-replaced.cbr-yellow.cbr-checked span {
-    background-image: url(../images/ok-white-full.png)
+    background-image: url(../images/ok-white-full.webp)
 }
 
 .cbr-replaced.cbr-yellow.cbr-checked.cbr-radio .cbr-state span {
@@ -5268,7 +5268,7 @@ body.chat-open #chat {
 }
 
 .cbr-replaced.cbr-gray.cbr-checked span {
-    background-image: url(../images/ok-white-full.png)
+    background-image: url(../images/ok-white-full.webp)
 }
 
 .cbr-replaced.cbr-gray.cbr-checked.cbr-radio .cbr-state span {
@@ -5280,7 +5280,7 @@ body.chat-open #chat {
 }
 
 .cbr-replaced.cbr-gray.cbr-checked span {
-    background-image: url(../images/ok.png)
+    background-image: url(../images/ok.webp)
 }
 
 .cbr-replaced+label {

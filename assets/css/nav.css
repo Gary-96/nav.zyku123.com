@@ -131,7 +131,7 @@
     margin-top: 50px;
 }
 
-.img-circle {
+.webp-circle {
     padding: 7px 0;
 }
 /* 侧边栏一级菜单样式 */
@@ -373,7 +373,7 @@
     line-height: 1.4 !important;
     border: none !important;
     text-align: left !important;
-    letter-spacing: 1px !important; /* 按照image_457884.png效果 */
+    letter-spacing: 1px !important; /* 按照image_457884.webp效果 */
     display: inline-block !important;
 }
 
@@ -396,7 +396,7 @@
     display: inline-block !important;
 }
 
-/* 彩色图标 - 参考image_450f88.png */
+/* 彩色图标 - 参考image_450f88.webp */
 .sidebar-nav li a i.fa-star { color: #ff4500 !important; } /* 热门推荐 - 橙红 */
 .sidebar-nav li a i.fa-robot { color: #00ceef !important; } /* AI工具 - 天蓝 */
 .sidebar-nav li a i.fa-gift { color: #70ff00 !important; } /* 免费资源 - 嫩绿 */

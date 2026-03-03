@@ -7,6 +7,83 @@ document.addEventListener('DOMContentLoaded', function() {
     // 0.1 初始化全局卡片悬浮效果
     initializeCardHoverEffects();
     
+    // 移动端菜单控制
+    initializeMobileMenu();
+    
+    // 1. 侧边栏主菜单点击联动
+    const menuItems = document.querySelectorAll('.menu-item');
+    
+    menuItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            // 移除所有菜单项的active类
+            menuItems.forEach(mi => mi.classList.remove('active'));
+            
+            // 为当前点击的菜单项添加active类
+            this.classList.add('active');
+            
+            // 如果有href锚点，进行页面跳转
+            const href = this.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                
+                const targetId = href.substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    // 平滑滚动到目标位置
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }
+            }
+            
+            // 移动端点击菜单后关闭侧边栏
+            if (window.innerWidth <= 768) {
+                closeMobileMenu();
+            }
+        });
+    });
+    
+    // 移动端菜单控制函数
+    function initializeMobileMenu() {
+        // 监听窗口大小变化
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeMobileMenu(); // 大屏幕时自动关闭移动端菜单
+            }
+        });
+        
+        // 点击页面其他区域关闭菜单
+        document.addEventListener('click', function(e) {
+            const sidebar = document.querySelector('.sidebar-wrapper');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (sidebar && menuToggle && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('mobile-menu-open')) {
+                closeMobileMenu();
+            }
+        });
+    }
+    
+    // 全局函数：切换移动端菜单
+    window.toggleMobileMenu = function() {
+        const sidebar = document.querySelector('.sidebar-wrapper');
+        if (sidebar) {
+            sidebar.classList.toggle('mobile-menu-open');
+        }
+    };
+    
+    // 全局函数：关闭移动端菜单
+    window.closeMobileMenu = function() {
+        const sidebar = document.querySelector('.sidebar-wrapper');
+        if (sidebar) {
+            sidebar.classList.remove('mobile-menu-open');
+        }
+    };
+    
     // 1. 侧边栏二级菜单点击联动
     const submenuItems = document.querySelectorAll('.submenu-item');
     
