@@ -1,453 +1,1011 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NAV-ZYKU123 - 优创资源导航</title>
-    <meta name="description" content="精选优质网站资源导航，涵盖技术开发、设计素材、学习工具、娱乐休闲等分类">
+    <title>优创资源导航 - 汇聚全球创意灵感与 AI 效率工具</title>
+    <meta name="keywords" content="优创资源, AI工具, 设计素材, 网址导航, 创意灵感, 汇率转换, 跨境支付, UI设计, 开发工具">
+    <meta name="description" content="优创资源导航是专为设计师与开发者打造的精品网址导航，收录了包括 AI 大模型、汇率转换、跨境支付、UI设计素材在内的万千优质资源，助你提升工作效率，激发创意灵感。">
+    <link rel="shortcut icon" href="assets/images/favicon.webp">
+    
+    <!-- 全新的布局样式 -->
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="assets/images/favicon.webp" type="image/webp">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- 自定义脚本 -->
+        
+    <!-- **保留的核心脚本** -->
+    <!-- Google Ads Script -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-8550836177608334",
+        enable_page_level_ads: true
+    });
+    </script>
+    <!-- Baidu Analytics Script -->
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e9fd3dfe0ac4312c3b390d0a6b010b52";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
 </head>
 <body>
-    <!-- 1. 顶部固定导航 -->
-    <header class="main-header">
-        <div class="header-inner">
-            <!-- Logo -->
-            <div class="logo">
-                <a href="./index.html"><img src="assets/images/logo@2x.webp" alt="NAV-ZYKU123" class="logo-img"></a>
-            </div>
-            <!-- 导航链接 -->
-            <div class="header-links">
-                <a href="./index.html" class="header-link active">
-                    <i class="fas fa-home"></i>
-                    <span>首页</span>
+
+    <!-- 渐变背景层 -->
+    <div class="bg-gradient"></div>
+
+    <!-- 1. 顶部固定导航栏 -->
+    <header class="top-header">
+        <div class="header-content">
+            <a href="./index.html" class="logo">
+                <img src="assets/images/logo@2x.webp" alt="优创资源导航 Logo">
+            </a>
+            <nav class="header-nav">
+                <a href="https://github.com/Gary-96/zyku123-nav" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-github"></i> GitHub
                 </a>
-                <a href="./articles.html" class="header-link">
-                    <i class="fas fa-robot"></i>
-                    <span>AI资讯</span>
-                </a>
-            </div>
+                <a href="./about.html">关于我们</a>
+            </nav>
         </div>
     </header>
 
-    <!-- 2. 侧边栏 -->
-    <aside class="sidebar-wrapper">
-        <nav class="sidebar-menu">
-            <div class="menu-item">
-                <a href="#hot">
-                    <i class="fas fa-fire"></i>
-                    <span>常用推荐</span>
-                </a>
+    <!-- 搜索英雄容器 -->
+    <div class="search-hero-container">
+        <div class="search-container">
+            <!-- 频道切换层 -->
+            <div class="search-tabs">
+                <button class="tab-btn" data-engine="site">站内</button>
+                <button class="tab-btn active" data-engine="pan">网盘资源搜索</button>
+                <button class="tab-btn" data-engine="search">搜索引擎</button>
+                <button class="tab-btn" data-engine="video">短视频</button>
+                <button class="tab-btn" data-engine="movie">影视</button>
+                <button class="tab-btn" data-engine="music">音乐</button>
+                <button class="tab-btn" data-engine="shopping">购物</button>
+                <button class="tab-btn" data-engine="community">社区</button>
+                <button class="tab-btn" data-engine="life">生活</button>
+                <button class="tab-btn" data-engine="topics">专题文章</button>
             </div>
-            <div class="menu-item">
-                <a href="#ai">
-                    <i class="fas fa-robot"></i>
-                    <span>AI工具</span>
-                </a>
+            
+            <!-- 搜索主容器 -->
+            <div class="search-bar-wrap">
+                <input type="text" id="searchInput" placeholder="搜索网盘资源、影视、软件...">
+                <button id="searchButton"><i class="fas fa-search"></i></button>
             </div>
-            <div class="menu-item">
-                <a href="#design">
-                    <i class="fas fa-palette"></i>
-                    <span>设计资源</span>
-                </a>
+            
+            <!-- 联想词层 -->
+            <div class="search-keywords">
+                <div class="keywords-arrow"></div>
+                <span>夸夸盘搜</span>
+                <span>盘大师</span>
+                <span>阿里云盘</span>
+                <span>百度网盘</span>
             </div>
-            <div class="menu-item">
-                <a href="#dev">
-                    <i class="fas fa-laptop-code"></i>
-                    <span>技术开发</span>
-                </a>
-            </div>
-            <div class="menu-item">
-                <a href="#social">
-                    <i class="fas fa-users"></i>
-                    <span>社交娱乐</span>
-                </a>
-            </div>
-            <div class="menu-item">
-                <a href="#cloud">
-                    <i class="fas fa-cloud"></i>
-                    <span>云服务</span>
-                </a>
-            </div>
-        </nav>
-    </aside>
-
-    <!-- 3. 主内容区 -->
-    <main class="main-content">
-        <!-- 分类 1: 常用推荐 -->
-        <section id="hot" class="content-section">
-            <div class="section-title">
-                <h2><i class="fas fa-fire"></i> 常用推荐</h2>
-            </div>
-            <div class="card-grid">
-                <a href="https://www.google.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#4285F4;background:#f3f4f6;">
-                        <i class="fab fa-google"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>Google</h3>
-                        <p>全球最大搜索引擎</p>
-                    </div>
-                </a>
-                <a href="https://github.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#333;background:#f3f4f6;">
-                        <i class="fab fa-github"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>GitHub</h3>
-                        <p>全球最大代码托管平台</p>
-                    </div>
-                </a>
-                <a href="https://chat.openai.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#10a37f;background:#f3f4f6;">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>ChatGPT</h3>
-                        <p>OpenAI AI对话助手</p>
-                    </div>
-                </a>
-                <a href="https://www.youtube.com/" target="_blank" class="nav-card">
-                    <img src="assets/images/logos/youtube.webp" class="nav-card-icon" alt="icon">
-                    <div class="card-info">
-                        <h3>YouTube</h3>
-                        <p>全球最大视频分享平台</p>
-                    </div>
-                </a>
-                <a href="https://stackoverflow.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#f48024;background:#f3f4f6;">
-                        <i class="fab fa-stack-overflow"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>Stack Overflow</h3>
-                        <p>程序员问答社区</p>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- 分类 2: AI工具 -->
-        <section id="ai" class="content-section">
-            <div class="section-title">
-                <h2><i class="fas fa-robot"></i> AI工具</h2>
-            </div>
-            <div class="card-grid">
-                <a href="https://chat.openai.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#10a37f;background:#f3f4f6;">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>ChatGPT</h3>
-                        <p>OpenAI AI对话助手</p>
-                    </div>
-                </a>
-                <a href="https://claude.ai/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#d97706;background:#f3f4f6;">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>Claude</h3>
-                        <p>Anthropic AI助手</p>
-                    </div>
-                </a>
-                <a href="https://gemini.google.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#4285f4;background:#f3f4f6;">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>Gemini</h3>
-                        <p>Google AI助手</p>
-                    </div>
-                </a>
-                <a href="https://www.midjourney.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#000000;background:#f3f4f6;">
-                        <i class="fas fa-image"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>Midjourney</h3>
-                        <p>AI图像生成工具</p>
-                    </div>
-                </a>
-                <a href="https://www.deepai.org/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#ff6b35;background:#f3f4f6;">
-                        <i class="fas fa-paint-brush"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>DeepAI</h3>
-                        <p>AI创作工具平台</p>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- 分类 3: 技术开发 -->
-        <section id="dev" class="content-section">
-            <div class="section-title">
-                <h2><i class="fas fa-laptop-code"></i> 技术开发</h2>
-            </div>
-            <div class="card-grid">
-                <a href="https://github.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#333;background:#f3f4f6;">
-                        <i class="fab fa-github"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>GitHub</h3>
-                        <p>全球最大代码托管平台</p>
-                    </div>
-                </a>
-                <a href="https://stackoverflow.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#f48024;background:#f3f4f6;">
-                        <i class="fab fa-stack-overflow"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>Stack Overflow</h3>
-                        <p>程序员问答社区</p>
-                    </div>
-                </a>
-                <a href="https://developer.mozilla.org/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#ff9500;background:#f3f4f6;">
-                        <i class="fab fa-firefox"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>MDN</h3>
-                        <p>Web技术权威文档</p>
-                    </div>
-                </a>
-                <a href="https://codepen.io/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#333;background:#f3f4f6;">
-                        <i class="fab fa-codepen"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>CodePen</h3>
-                        <p>在线代码编辑器</p>
-                    </div>
-                </a>
-                <a href="https://gitlab.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#FC6D26;background:#f3f4f6;">
-                        <i class="fab fa-gitlab"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>GitLab</h3>
-                        <p>开源代码托管平台</p>
-                    </div>
-                </a>
-                <a href="https://vercel.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#000000;background:#f3f4f6;">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>Vercel</h3>
-                        <p>前端部署平台</p>
-                    </div>
-                </a>
-                <a href="https://netlify.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#00C7B7;background:#f3f4f6;">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>Netlify</h3>
-                        <p>静态网站托管</p>
-                    </div>
-                </a>
-                <a href="https://www.npmjs.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#CB3837;background:#f3f4f6;">
-                        <i class="fab fa-npm"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>npm</h3>
-                        <p>JavaScript包管理器</p>
-                    </div>
-                </a>
-                <a href="https://docker.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#2496ED;background:#f3f4f6;">
-                        <i class="fab fa-docker"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>Docker</h3>
-                        <p>容器化平台</p>
-                    </div>
-                </a>
-                <a href="https://www.mongodb.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#47A248;background:#f3f4f6;">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>MongoDB</h3>
-                        <p>NoSQL数据库</p>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- 分类 4: 社交娱乐 -->
-        <section id="social" class="content-section">
-            <div class="section-title">
-                <h2><i class="fas fa-users"></i> 社交娱乐</h2>
-            </div>
-            <div class="card-grid">
-                <a href="https://www.bilibili.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#00A1D6;background:#f3f4f6;">
-                        <i class="fas fa-play-circle"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>Bilibili</h3>
-                        <p>国内知名视频弹幕网站</p>
-                    </div>
-                </a>
-                <a href="https://www.douyin.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#000000;background:#f3f4f6;">
-                        <i class="fas fa-music"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>抖音</h3>
-                        <p>记录美好生活</p>
-                    </div>
-                </a>
-                <a href="https://www.xiaohongshu.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#FF2442;background:#f3f4f6;">
-                        <i class="fas fa-book"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>小红书</h3>
-                        <p>年轻人的生活方式平台</p>
-                    </div>
-                </a>
-                <a href="https://www.weibo.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#E6162D;background:#f3f4f6;">
-                        <i class="fas fa-comment"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>微博</h3>
-                        <p>随时随地发现新鲜事</p>
-                    </div>
-                </a>
-                <a href="https://twitter.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#1DA1F2;background:#f3f4f6;">
-                        <i class="fab fa-twitter"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>X (Twitter)</h3>
-                        <p>全球实时资讯社交平台</p>
-                    </div>
-                </a>
-                <a href="https://www.youtube.com/" target="_blank" class="nav-card">
-                    <img src="assets/images/logos/youtube.webp" class="nav-card-icon" alt="icon">
-                    <div class="card-info">
-                        <h3>YouTube</h3>
-                        <p>全球最大视频分享平台</p>
-                    </div>
-                </a>
-                <a href="https://www.instagram.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#E4405F;background:#f3f4f6;">
-                        <i class="fab fa-instagram"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>Instagram</h3>
-                        <p>图片短视频社交平台</p>
-                    </div>
-                </a>
-                <a href="https://www.facebook.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#1877F2;background:#f3f4f6;">
-                        <i class="fab fa-facebook"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>Facebook</h3>
-                        <p>全球社交网络服务</p>
-                    </div>
-                </a>
-                <a href="https://www.tiktok.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#000000;background:#f3f4f6;">
-                        <i class="fas fa-music"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>TikTok</h3>
-                        <p>短视频社交平台</p>
-                    </div>
-                </a>
-                <a href="https://www.linkedin.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#0077B5;background:#f3f4f6;">
-                        <i class="fab fa-linkedin"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>LinkedIn</h3>
-                        <p>职业社交网络平台</p>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- 分类 5: 云服务 -->
-        <section id="cloud" class="content-section">
-            <div class="section-title">
-                <h2><i class="fas fa-cloud"></i> 云服务</h2>
-            </div>
-            <div class="card-grid">
-                <a href="https://www.aliyun.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#FF6A00;background:#f3f4f6;">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>阿里云</h3>
-                        <p>国内领先云服务</p>
-                    </div>
-                </a>
-                <a href="https://cloud.tencent.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#00A4DB;background:#f3f4f6;">
-                        <i class="fas fa-cloud"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>腾讯云</h3>
-                        <p>腾讯旗下云服务</p>
-                    </div>
-                </a>
-                <a href="https://www.huaweicloud.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#FF0000;background:#f3f4f6;">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>华为云</h3>
-                        <p>华为云计算服务</p>
-                    </div>
-                </a>
-                <a href="https://aws.amazon.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#FF9900;background:#f3f4f6;">
-                        <i class="fab fa-aws"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>亚马逊云</h3>
-                        <p>免费EC2实例</p>
-                    </div>
-                </a>
-                <a href="https://azure.microsoft.com/" target="_blank" class="nav-card">
-                    <div class="nav-card-icon" style="display:flex;align-items:center;justify-content:center;font-size:20px;color:#0078D4;background:#f3f4f6;">
-                        <i class="fab fa-microsoft"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>微软云</h3>
-                        <p>免费1个月试用</p>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- 页脚 -->
-    <footer class="main-footer">
-        <div class="footer-content">
-            <p>© 2026 <span class="brand-text">NAV-ZYKU123</span> 由 <a href="https://zyku123.com" target="_blank" class="tech-support">优创资源站</a> 提供技术支持</p>
-            <p>
-                <a href="privacy.html" class="footer-link">隐私政策</a> | 
-                <a href="disclaimer.html" class="footer-link">免责声明</a>
-            </p>
         </div>
-    </footer>
+    </div>
 
-    <!-- 搜索交互脚本 -->
-    <script src="search.js"></script>
+    <!-- 主内容包装器 -->
+    <div class="main-wrapper">
+        <!-- 左侧分类菜单 -->
+        <aside class="sidebar" id="sidebarNav">
+                <nav>
+                    <ul class="sidebar-menu">
+                        <!-- 1. 常用推荐 -->
+                        <li class="menu-item">
+                            <a href="#category-1">
+                                <i class="fas fa-fire"></i>
+                                <span>常用推荐</span>
+                            </a>
+                        </li>
+                        
+                        <!-- 2. 优选科技 -->
+                        <li class="menu-item">
+                            <a href="#category-2">
+                                <i class="fas fa-microchip"></i>
+                                <span>优选科技</span>
+                            </a>
+                        </li>
+                        
+                        <!-- 3. AI工具 -->
+                        <li class="menu-item">
+                            <a href="#category-3">
+                                <i class="fas fa-robot"></i>
+                                <span>AI工具</span>
+                            </a>
+                        </li>
+                        
+                        <!-- 4. 跨境支付 -->
+                        <li class="menu-item">
+                            <a href="#category-4">
+                                <i class="fas fa-credit-card"></i>
+                                <span>跨境支付</span>
+                            </a>
+                        </li>
+                        
+                        <!-- 5. 社交娱乐 -->
+                        <li class="menu-item">
+                            <a href="#category-5">
+                                <i class="fas fa-gamepad"></i>
+                                <span>社交娱乐</span>
+                            </a>
+                        </li>
+                        
+                        <!-- 6. 设计资源 -->
+                        <li class="menu-item">
+                            <a href="#design">
+                                <i class="fas fa-palette"></i>
+                                <span>设计资源</span>
+                            </a>
+                        </li>
+                        
+                        <!-- 7. 免费素材 -->
+                        <li class="menu-item">
+                            <a href="#resources">
+                                <i class="fas fa-gift"></i>
+                                <span>免费素材</span>
+                            </a>
+                        </li>
+                        
+                        <!-- 8. 软件下载 -->
+                        <li class="menu-item">
+                            <a href="#software">
+                                <i class="fas fa-download"></i>
+                                <span>软件下载</span>
+                            </a>
+                        </li>
+                        
+                        <!-- 10. 免费影视 -->
+                        <li class="menu-item">
+                            <a href="#movies">
+                                <i class="fas fa-video"></i>
+                                <span>免费影视</span>
+                            </a>
+                        </li>
+                        
+                        <!-- 11. 社区资讯 -->
+                        <li class="menu-item">
+                            <a href="#community">
+                                <i class="fas fa-comments"></i>
+                                <span>社区资讯</span>
+                            </a>
+                        </li>
+                        
+                        <!-- 12. 其他分类 -->
+                        <li class="menu-item">
+                            <a href="#others">
+                                <i class="fas fa-ellipsis-h"></i>
+                                <span>其他分类</span>
+                            </a>
+                        </li>
+                        
+                        <!-- 13. 资源搜索 -->
+                        <li class="menu-item">
+                            <a href="#category-13">
+                                <i class="fas fa-search"></i>
+                                <span>资源搜索</span>
+                            </a>
+                        </li>
+                        
+                        <!-- 14. 综合社区 -->
+                        <li class="menu-item">
+                            <a href="#category-14">
+                                <i class="fas fa-users"></i>
+                                <span>综合社区</span>
+                            </a>
+                        </li>
+                        
+                        <!-- 15. 发现更多 -->
+                        <li class="menu-item">
+                            <a href="#category-15">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>发现更多</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+
+        <!-- 右侧内容主区 -->
+        <main class="content">
+                
+                
+            <!-- 常用推荐 -->
+            <section class="category-wrapper" id="category-1">
+                <div class="category-header">
+                    <h2 class="category-title"><i class="fas fa-fire"></i> 常用推荐</h2>
+                </div>
+                <div class="card-grid">
+                    <a href="https://dribbble.com/" class="custom-card" title="全球UI设计师作品分享平台">
+                        <div class="card-left">
+                            <img src="assets/images/logos/dribbble.png" class="card-logo">
+                        </div>
+                        <div class="card-right">
+                            <div class="card-top-row">
+                                <span class="card-name">Dribbble</span>
+                                <i class="arrow-icon"></i>
+                            </div>
+                            <div class="card-desc">全球UI设计师作品分享平台</div>
+                        </div>
+                    </a>
+                    <a href="https://behance.net/" class="custom-card" title="Adobe旗下的设计师交流平台，来自世界各地的设计师在这里分享自己的作品">
+                        <div class="card-left">
+                            <img src="assets/images/logos/behance.png" class="card-logo">
+                        </div>
+                        <div class="card-right">
+                            <div class="card-top-row">
+                                <span class="card-name">Behance</span>
+                                <i class="arrow-icon"></i>
+                            </div>
+                            <div class="card-desc">Adobe旗下的设计师交流平台</div>
+                        </div>
+                    </a>
+                    <a href="http://www.ui.cn/" class="custom-card" title="图形交互与界面设计交流、作品展示、学习平台">
+                        <div class="card-left">
+                            <img src="assets/images/logos/uicn.png" class="card-logo">
+                        </div>
+                        <div class="card-right">
+                            <div class="card-top-row">
+                                <span class="card-name">UI中国</span>
+                                <i class="arrow-icon"></i>
+                            </div>
+                            <div class="card-desc">图形交互与界面设计交流平台</div>
+                        </div>
+                    </a>
+                    <a href="http://www.zcool.com.cn/" class="custom-card" title="中国人气设计师互动平台">
+                        <div class="card-left">
+                            <img src="assets/images/logos/zcool.png" class="card-logo">
+                        </div>
+                        <div class="card-right">
+                            <div class="card-top-row">
+                                <span class="card-name">站酷</span>
+                                <i class="arrow-icon"></i>
+                            </div>
+                            <div class="card-desc">中国人气设计师互动平台</div>
+                        </div>
+                    </a>
+                    <a href="https://www.pinterest.com/" class="custom-card" title="全球美图收藏采集站">
+                        <div class="card-left">
+                            <img src="assets/images/logos/pinterest.png" class="card-logo">
+                        </div>
+                        <div class="card-right">
+                            <div class="card-top-row">
+                                <span class="card-name">Pinterest</span>
+                                <i class="arrow-icon"></i>
+                            </div>
+                            <div class="card-desc">全球美图收藏采集站</div>
+                        </div>
+                    </a>
+                    <a href="https://xiyou4you.us/r/?s=13731627" class="custom-card" title="优秀的科学上网（略贵，但是贼稳，点击注册领取优惠券）">
+                        <div class="card-left">
+                            <img src="assets/images/logos/xiyou.png" class="card-logo">
+                        </div>
+                        <div class="card-right">
+                            <div class="card-top-row">
+                                <span class="card-name">西游-科学上网</span>
+                                <i class="arrow-icon"></i>
+                            </div>
+                            <div class="card-desc">优秀的科学上网（略贵，但是贼稳）</div>
+                        </div>
+                    </a>
+                    <a href="https://www.shejizhoukan.com/" class="custom-card" title="最新设计资讯（每天更新）">
+                        <div class="card-left">
+                            <img src="assets/images/logos/shejizhoukan.png" class="card-logo">
+                        </div>
+                        <div class="card-right">
+                            <div class="card-top-row">
+                                <span class="card-name">设计周刊</span>
+                                <i class="arrow-icon"></i>
+                            </div>
+                            <div class="card-desc">最新设计资讯（每天更新）</div>
+                        </div>
+                    </a>
+                    <a href="https://www.ziticangku.com/" class="custom-card" title="最全的免费商用字体库">
+                        <div class="card-left">
+                            <img src="assets/images/logos/ziticangku.png" class="card-logo">
+                        </div>
+                        <div class="card-right">
+                            <div class="card-top-row">
+                                <span class="card-name">字体仓库</span>
+                                <i class="arrow-icon"></i>
+                            </div>
+                            <div class="card-desc">最全的免费商用字体库</div>
+                        </div>
+                    </a>
+                    <a href="https://eleduck.com/" class="custom-card" title="国内最早的远程工作社区，设计师开发小伙伴关注">
+                        <div class="card-left">
+                            <img src="assets/images/logos/eleduck.png" class="card-logo">
+                        </div>
+                        <div class="card-right">
+                            <div class="card-top-row">
+                                <span class="card-name">电鸭社区</span>
+                                <i class="arrow-icon"></i>
+                            </div>
+                            <div class="card-desc">国内最早的远程工作社区</div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- AI工具 -->
+            <section class="category-wrapper" id="category-3">
+                <div class="category-header">
+                    <h2 class="category-title"><i class="fas fa-robot"></i>AI 工具</h2>
+                </div>
+                <div class="card-grid">
+                    <a href="https://www.deepseek.com/" class="custom-card" title="AI聊天大模型">
+                        <div class="card-left">
+                            <img src="assets/images/logos/deepseek.png" class="card-logo">
+                        </div>
+                        <div class="card-right">
+                            <div class="card-top-row">
+                                <span class="card-name">DeepSeek</span>
+                                <i class="arrow-icon"></i>
+                            </div>
+                            <div class="card-desc">AI聊天大模型</div>
+                        </div>
+                    </a>
+                    <a href="https://chat.openai.com/" class="custom-card" title="强大的AI聊天机器人">
+                        <div class="card-left">
+                            <img src="assets/images/logos/chatgpt.png" class="card-logo">
+                        </div>
+                        <div class="card-right">
+                            <div class="card-top-row">
+                                <span class="card-name">ChatGPT</span>
+                                <i class="arrow-icon"></i>
+                            </div>
+                            <div class="card-desc">强大的AI聊天机器人</div>
+                        </div>
+                    </a>
+                    <a href="https://www.anthropic.com/" class="custom-card" title="AI聊天新秀">
+                        <div class="card-left">
+                            <img src="assets/images/logos/claude.png" class="card-logo">
+                        </div>
+                        <div class="card-right">
+                            <div class="card-top-row">
+                                <span class="card-name">Claude</span>
+                                <i class="arrow-icon"></i>
+                            </div>
+                            <div class="card-desc">AI聊天新秀</div>
+                        </div>
+                    </a>
+                    <a href="https://copilot.microsoft.com/" target="_blank" rel="noopener noreferrer" class="custom-card">
+                        <img src="../assets/images/logos/copilot.png" alt="Copilot" class="card-icon" loading="lazy">
+                        <div class="card-info">
+                            <h3>Copilot</h3>
+                            <p>微软AI聊天机器人</p>
+                        </div>
+                    </a>
+                    <a href="https://grok.x.ai/" target="_blank" rel="noopener noreferrer" class="custom-card">
+                        <img src="../assets/images/logos/grok.png" alt="Grok" class="card-icon" loading="lazy">
+                        <div class="card-info">
+                            <h3>Grok</h3>
+                            <p>马斯克的AI聊天大模型</p>
+                        </div>
+                    </a>
+                    <a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer" class="custom-card">
+                        <img src="../assets/images/logos/gemini.png" alt="Gemini" class="card-icon" loading="lazy">
+                        <div class="card-info">
+                            <h3>Gemini</h3>
+                            <p>谷歌AI聊天机器人</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 跨境支付 -->
+            <section class="category-wrapper" id="category-4">
+                <div class="category-header">
+                    <h2 class="category-title"><i class="fas fa-credit-card"></i>跨境支付</h2>
+                </div>
+                <div class="card-grid">
+                    <a href="https://www.paypal.com/" target="_blank" rel="noopener noreferrer" class="custom-card">
+                        <img src="../assets/images/logos/paypal.png" alt="PayPal" class="card-icon" loading="lazy">
+                        <div class="card-info">
+                            <h3>PayPal</h3>
+                            <p>海外支付宝</p>
+                        </div>
+                    </a>
+                    <a href="https://www.worldfirst.com/" target="_blank" rel="noopener noreferrer" class="custom-card">
+                        <img src="../assets/images/logos/worldfirst.png" alt="万里汇 (WorldFirst)" class="card-icon" loading="lazy">
+                        <div class="card-info">
+                            <h3>万里汇 (WorldFirst)</h3>
+                            <p>跨境银行账户平台</p>
+                        </div>
+                    </a>
+                    <a href="https://wise.com/" target="_blank" rel="noopener noreferrer" class="custom-card">
+                        <img src="../assets/images/logos/wise.png" alt="Wise" class="card-icon" loading="lazy">
+                        <div class="card-info">
+                            <h3>Wise</h3>
+                            <p>全球知名支付平台</p>
+                        </div>
+                    </a>
+                    <a href="https://www.payoneer.com/" target="_blank" rel="noopener noreferrer" class="custom-card">
+                        <img src="../assets/images/logos/payoneer.png" alt="Payoneer" class="card-icon" loading="lazy">
+                        <div class="card-info">
+                            <h3>Payoneer</h3>
+                            <p>派安盈国际汇款平台</p>
+                        </div>
+                    </a>
+                    <a href="https://www.bybit.com/" target="_blank" rel="noopener noreferrer" class="custom-card">
+                        <img src="../assets/images/logos/bybit.png" alt="Bybit" class="card-icon" loading="lazy">
+                        <div class="card-info">
+                            <h3>Bybit</h3>
+                            <p>免费海外虚拟卡</p>
+                        </div>
+                    </a>
+                    <a href="currency.html" target="_blank" rel="noopener noreferrer" class="custom-card">
+                        <img src="../assets/images/logos/exchange.png" alt="汇率转换器" class="card-icon" loading="lazy">
+                        <div class="card-info">
+                            <h3>汇率转换器</h3>
+                            <p>多币种实时汇率工具</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 社交娱乐 -->
+            <section class="category-wrapper" id="category-5">
+                <div class="category-header">
+                    <h2 class="category-title"><i class="fas fa-gamepad"></i>社交娱乐</h2>
+                </div>
+                <div class="card-grid">
+                    <a href="https://www.bilibili.com/" target="_blank" class="custom-card">
+                        <img src="../assets/images/logos/bilibili.png" alt="B站" class="card-icon" loading="lazy">
+                        <div class="card-info">
+                            <h3>B站</h3>
+                            <p>国内知名视频弹幕网站</p>
+                        </div>
+                    </a>
+                    <a href="https://www.douyin.com/" target="_blank" class="custom-card">
+                        <img src="../assets/images/logos/douyin.png" alt="抖音" class="card-icon" loading="lazy">
+                        <div class="card-info">
+                            <h3>抖音</h3>
+                            <p>短视频社交平台</p>
+                        </div>
+                    </a>
+                    <a href="https://www.xiaohongshu.com/" target="_blank" class="custom-card">
+                        <img src="../assets/images/logos/xiaohongshu.png" alt="小红书" class="card-icon" loading="lazy">
+                        <div class="card-info">
+                            <h3>小红书</h3>
+                            <p>生活方式分享社区</p>
+                        </div>
+                    </a>
+                    <a href="https://www.weibo.com/" target="_blank" class="custom-card">
+                        <img src="../assets/images/logos/weibo.png" alt="微博" class="card-icon" loading="lazy">
+                        <div class="card-info">
+                            <h3>微博</h3>
+                            <p>社交媒体平台</p>
+                        </div>
+                    </a>
+                    <a href="https://www.zhihu.com/" target="_blank" class="custom-card">
+                        <img src="../assets/images/logos/zhihu.png" alt="知乎" class="card-icon" loading="lazy">
+                        <div class="card-info">
+                            <h3>知乎</h3>
+                            <p>高质量问答社区</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 设计资源 -->
+            <section class="category-wrapper" id="design">
+                <div class="category-header">
+                    <h2 class="category-title"><i class="fas fa-paint-brush"></i>设计资源</h2>
+                </div>
+                <div class="card-grid">
+                    <a href="https://www.aliyun.com/minisite/goods?userCode=xtct5egx&share_source=copy_link" target="_blank" class="custom-card">
+                        <img src="../assets/images/logos/aliyun.png" alt="阿里云" class="card-icon" loading="lazy">
+                        <div class="card-info">
+                            <h3>阿里云</h3>
+                            <p>点击领取2000元限量云产品优惠券</p>
+                        </div>
+                    </a>
+                    <a href="https://www.gulusucai.com/" target="_blank" class="custom-card">
+                        <img src="../assets/images/logos/gulusucai.png" alt="咕噜素材" class="card-icon" loading="lazy">
+                        <div class="card-info">
+                            <h3>咕噜素材</h3>
+                            <p>质量很高的设计素材网站（推荐）</p>
+                        </div>
+                    </a>
+                </div>
+                </div>
+            </section>
+
+            <!-- 免费素材 -->
+            <section id="resources" class="category-section" style="margin-bottom: 30px;">
+              <div class="panel-header" style="margin-bottom: 15px;">
+                <h4 class="text-gray" style="font-weight: bold;"><i class="fas fa-star"></i> 免费素材</h4>
+              </div>
+              <div class="card-grid">
+                <a href="https://www.pexels.com/" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="../assets/images/logos/pexels.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">Pexels</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">免费高质量图片素材</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </section>
+
+            <!-- 软件下载 -->
+            <section id="software" class="category-section" style="margin-bottom: 30px;">
+              <div class="panel-header" style="margin-bottom: 15px;">
+                <h4 class="text-gray" style="font-weight: bold;"><i class="fas fa-star"></i> 软件下载</h4>
+              </div>
+              <div class="card-grid">
+                <a href="https://www.figma.com/" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="../assets/images/logos/figma.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">Figma</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">协作设计工具</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </section>
+
+            
+            <!-- 免费影视 -->
+            <section id="movies" class="category-section" style="margin-bottom: 30px;">
+              <div class="panel-header" style="margin-bottom: 15px;">
+                <h4 class="text-gray" style="font-weight: bold;"><i class="fas fa-star"></i> 免费影视</h4>
+              </div>
+              <div class="card-grid">
+                <a href="#" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="assets/images/logos/yinghe.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">硬核影视</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">大量超清影片资源！</p>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="assets/images/logos/jiujiu.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">玖玖影视</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">免费短视频、热门剧集实时更新</p>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="assets/images/logos/soupian.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">搜片-蓝光高清</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">全网影片聚合搜索</p>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="assets/images/logos/wandou.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">豌豆影视Pro</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">提供数万部高清电影与综艺</p>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="assets/images/logos/5dian.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">5点电影</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">提供海量高清免费电影在线观看</p>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="assets/images/logos/24movie.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">24电影网</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">24小时全天候精彩不断</p>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="assets/images/logos/dianyinjie.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">电影街</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">比较老牌但低调的影视资源站</p>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="assets/images/logos/mr_movie.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">电影先生</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">提供免费电影、电视剧及综艺列表</p>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="assets/images/logos/hdmoli.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">HDmoli</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">一个专注提供高清在线观影的站点</p>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="assets/images/logos/factory.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">厂长资源</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">提供最新高清电影、外剧精选</p>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="assets/images/logos/dytt.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">电影天堂资源</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">提供超100万部影视资源免费下载</p>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="assets/images/logos/netflix_gc.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">奈飞工厂</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">一个专注奈飞(Netflix)资源的站点</p>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="assets/images/logos/youth.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">共青春影院</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">一个提供海量影视资源的综合平台</p>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="assets/images/logos/fairy.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">仙女影视</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">高清追剧首选视频库</p>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="assets/images/logos/laikan.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">来看点播</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">一个可以免费在线观看最新电影的网站</p>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="assets/images/logos/netflixcat.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">网飞猫</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">一个汇聚海量影视资源的站点</p>
+                    </div>
+                  </div>
+                </a>
+                <a href="#" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="assets/images/logos/freeok.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">FreeOK</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">免费看电影、电视剧的优质选择</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </section>
+
+            <!-- 社区资讯 -->
+            <section id="community" class="category-section" style="margin-bottom: 30px;">
+              <div class="panel-header" style="margin-bottom: 15px;">
+                <h4 class="text-gray" style="font-weight: bold;"><i class="fas fa-star"></i> 社区资讯</h4>
+              </div>
+              <div class="card-grid">
+                <a href="https://www.zhihu.com/" target="_blank" class="custom-card-item">
+                  <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <img src="../assets/images/logos/zhihu.png" class="app-icon" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; object-fit: cover;">
+                    <div class="app-info">
+                      <strong style="font-size: 14px; color: #333; display: block;">知乎</strong>
+                      <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">高质量问答社区</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </section>
+
+                    <!-- 其他分类 -->
+    <section id="others" class="category-section" style="margin-bottom: 30px;">
+        <div class="panel-header" style="margin-bottom: 15px;">
+            <h4 class="text-gray" style="font-weight: bold;"><i class="fas fa-star"></i> 其他分类</h4>
+        </div>
+        <div class="card-grid">
+            <!-- GitHub -->
+            <a href="https://github.com/" target="_blank" class="custom-card-item">
+                <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <div class="icon-box" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #f8f9fa;">
+                        <i class="fab fa-github" style="font-size: 20px; color: #333;"></i>
+                    </div>
+                    <div class="app-info">
+                        <strong style="font-size: 14px; color: #333; display: block;">GitHub</strong>
+                        <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">全球最大的代码托管平台</p>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Stack Overflow -->
+            <a href="https://stackoverflow.com/" target="_blank" class="custom-card-item">
+                <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <div class="icon-box" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #f8f9fa;">
+                        <i class="fab fa-stack-overflow" style="font-size: 20px; color: #333;"></i>
+                    </div>
+                    <div class="app-info">
+                        <strong style="font-size: 14px; color: #333; display: block;">Stack Overflow</strong>
+                        <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">程序员问答社区</p>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- MDN Web Docs -->
+            <a href="https://developer.mozilla.org/" target="_blank" class="custom-card-item">
+                <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <div class="icon-box" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #f8f9fa;">
+                        <i class="fab fa-firefox" style="font-size: 20px; color: #333;"></i>
+                    </div>
+                    <div class="app-info">
+                        <strong style="font-size: 14px; color: #333; display: block;">MDN Web Docs</strong>
+                        <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Web技术文档</p>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- CodePen -->
+            <a href="https://codepen.io/" target="_blank" class="custom-card-item">
+                <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <div class="icon-box" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #f8f9fa;">
+                        <i class="fab fa-codepen" style="font-size: 20px; color: #333;"></i>
+                    </div>
+                    <div class="app-info">
+                        <strong style="font-size: 14px; color: #333; display: block;">CodePen</strong>
+                        <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">在线代码编辑器</p>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Dev.to -->
+            <a href="https://dev.to/" target="_blank" class="custom-card-item">
+                <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <div class="icon-box" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #f8f9fa;">
+                        <i class="fab fa-dev" style="font-size: 20px; color: #333;"></i>
+                    </div>
+                    <div class="app-info">
+                        <strong style="font-size: 14px; color: #333; display: block;">Dev.to</strong>
+                        <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">开发者社区</p>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- 美团 -->
+            <a href="https://www.meituan.com/" target="_blank" class="custom-card-item">
+                <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <div class="icon-box" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #f8f9fa;">
+                        <i class="fas fa-home" style="font-size: 20px; color: #333;"></i>
+                    </div>
+                    <div class="app-info">
+                        <strong style="font-size: 14px; color: #333; display: block;">美团</strong>
+                        <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">外卖、酒店、旅游、电影票</p>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- 爱奇艺 -->
+            <a href="https://www.iqiyi.com/" target="_blank" class="custom-card-item">
+                <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <div class="icon-box" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #f8f9fa;">
+                        <i class="fas fa-film" style="font-size: 20px; color: #333;"></i>
+                    </div>
+                    <div class="app-info">
+                        <strong style="font-size: 14px; color: #333; display: block;">爱奇艺</strong>
+                        <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">中国领先的视频平台</p>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Google Scholar -->
+            <a href="https://scholar.google.com/" target="_blank" class="custom-card-item">
+                <div class="card-body-inner" style="display: flex; align-items: center; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f0f2f5;">
+                    <div class="icon-box" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #f8f9fa;">
+                        <i class="fas fa-graduation-cap" style="font-size: 20px; color: #333;"></i>
+                    </div>
+                    <div class="app-info">
+                        <strong style="font-size: 14px; color: #333; display: block;">Google Scholar</strong>
+                        <p style="font-size: 12px; color: #999; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">学术文献搜索引擎</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+                <div class="card-info">
+                    <h3>Pexels</h3>
+                    <p>免费高质量图片素材</p>
+                </div>
+            </a>
+            
+            <!-- TinyPNG -->
+            <a href="https://tinypng.com/" target="_blank" class="custom-card">
+                <div class="card-icon">
+                    <i class="fas fa-image"></i>
+                </div>
+                <div class="card-info">
+                    <h3>TinyPNG</h3>
+                    <p>智能图片压缩工具</p>
+                </div>
+            </a>
+        </div>
+    </section>
+</main>
+        </div>
+    </div>
+
+    <script>
+    // 二级折叠导航和搜索交互脚本
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('searchInput');
+        const cards = document.querySelectorAll('.link-card, .article-card');
+        const sections = document.querySelectorAll('.category-section');
+        const noResultsMessage = document.getElementById('noResultsMessage');
+        const sidebarLinks = document.querySelectorAll('#sidebarNav a');
+        const categoryHeaders = document.querySelectorAll('.category-header');
+        const subcategoryLists = document.querySelectorAll('.subcategory-list');
+
+        // 默认展开第一个大类
+        if (categoryHeaders.length > 0) {
+            categoryHeaders[0].classList.add('active');
+            subcategoryLists[0].classList.add('expanded');
+        }
+
+        // 一级分类点击事件
+        categoryHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                const isActive = this.classList.contains('active');
+                const targetList = this.nextElementSibling;
+                
+                // 关闭所有其他分类
+                categoryHeaders.forEach(h => {
+                    if (h !== this) {
+                        h.classList.remove('active');
+                        h.nextElementSibling.classList.remove('expanded');
+                    }
+                });
+                
+                // 切换当前分类
+                if (!isActive) {
+                    this.classList.add('active');
+                    targetList.classList.add('expanded');
+                } else {
+                    this.classList.remove('active');
+                    targetList.classList.remove('expanded');
+                }
+            });
+        });
+
+        // 搜索功能
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.toLowerCase().trim();
+            let visibleCards = 0;
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    card.style.display = 'flex';
+                    visibleCards++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            sections.forEach(section => {
+                const visibleInSection = section.querySelectorAll('.link-card[style*="display: flex"], .article-card[style*="display: flex"]');
+                if (visibleInSection.length > 0) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+            
+            noResultsMessage.style.display = (visibleCards === 0 && query) ? 'block' : 'none';
+        });
+
+        // 侧边栏滚动监听，高亮当前分类
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const id = entry.target.getAttribute('id');
+                const link = document.querySelector(`#sidebarNav a[href="#${id}"]`);
+                if (entry.isIntersecting) {
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    if(link) {
+                        link.classList.add('active');
+                        
+                        // 展开对应的父分类
+                        const parentList = link.closest('.subcategory-list');
+                        if (parentList) {
+                            const parentHeader = parentList.previousElementSibling;
+                            parentHeader.classList.add('active');
+                            parentList.classList.add('expanded');
+                        }
+                    }
+                }
+            });
+        }, { rootMargin: '-40% 0px -60% 0px' }); // 在屏幕中间时触发
+
+        sections.forEach(section => observer.observe(section));
+
+        // 平滑滚动
+        sidebarLinks.forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 悬停菜单点击事件
+        document.querySelectorAll('.sub-menu-popup a').forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    });
+    </script>
     
-    <!-- Tab交互脚本 -->
-    <script src="tab-interaction.js"></script>
+    </main>
+    </div>
+    
+    <footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-copyright">
+            © 2026 NVZ-ZYKU123 · 版权所有 · 本站由 <a href="https://zyku123.com" target="_blank" class="brand-link">优创资源网</a> 强力驱动并维护
+        </div>
+        <div class="footer-links">
+            <a href="privacy.html">隐私政策</a>
+            <span class="divider">|</span>
+            <a href="disclaimer.html">免责声明</a>
+            <span class="divider">|</span>
+            <a href="mailto:admin@zyku123.com">侵权投诉</a>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
