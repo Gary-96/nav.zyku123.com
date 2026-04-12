@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 资讯速递 | 优创导航 - 发现全球优质 AI 资源</title>
+    <meta name="description" content="精选AI技术、大模型、应用开发等前沿资讯，及时掌握全球 AI 行业动态。">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="assets/images/favicon.webp" type="image/webp">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 1. 顶部固定导航 -->
+    <header class="fixed-header">
+        <div class="header-left">
+            <div class="logo-wrapper">
+                <a href="./index.html" class="logo">
+                    <img src="assets/images/logo@2x.webp" alt="Logo">
+                </a>
+            </div>
+            <nav class="top-nav-links">
+                <a href="./articles.html" class="nav-item">
+                    <i class="fas fa-robot"></i><span>AI资讯</span>
+                </a>
+                <a href="./hot.html" class="nav-item">
+                    <i class="fas fa-fire"></i><span>实时热点</span>
+                </a>
+            </nav>
+        </div>
+        <div class="header-right">
+            <!-- 天气信息 -->
+            <div class="weather-info" id="weather-widget">
+                <span class="weather-city">襄阳</span>
+                <span class="weather-icon">☁️</span>
+                <span class="weather-temp">--°</span>
+            </div>
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div id="theme-toggle" class="theme-switch" title="切换主题">
+                <i class="fas fa-moon"></i>
+            </div>
+            <a href="https://github.com/Gary-96/nav.zyku123.com" target="_blank" class="top-tool-link">
+                <i class="fab fa-github"></i><span>GitHub</span>
+            </a>
+            <a href="./disclaimer.html" class="top-tool-link">
+                <i class="fas fa-info-circle"></i><span>关于</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- 2. 文章内容区域 -->
+    <div class="app-container">
+        <div class="main-wrapper">
+            <!-- 主内容区居中 -->
+            <main class="main-content">
+                <div class="content-section">
+                    <div class="section-header">
+                        <h1 class="section-title">
+                            <i class="fas fa-robot"></i>
+                            AI资讯
+                        </h1>
+                        <div class="section-meta">
+                            <span class="article-count">共 <span id="articleCount">0</span> 篇资讯</span>
+                            <button class="refresh-btn" onclick="refreshArticles()">
+                                <i class="fas fa-sync-alt"></i>
+                                刷新资讯
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 横向 Tab 栏方案 -->
+                    <div class="horizontal-tabs">
+                        <a href="#" class="tab-item active" data-category="all"><i class="fas fa-th-large"></i> 全部资讯</a>
+                        <a href="#" class="tab-item" data-category="llm"><i class="fas fa-brain"></i> 大模型</a>
+                        <a href="#" class="tab-item" data-category="apps"><i class="fas fa-mobile-alt"></i> AI应用</a>
+                        <a href="#" class="tab-item" data-category="research"><i class="fas fa-microscope"></i> 前沿研究</a>
+                        <a href="#" class="tab-item" data-category="industry"><i class="fas fa-chart-line"></i> 行业动态</a>
+                    </div>
+
+                    <!-- 文章列表 -->
+                    <div class="articles-container articles-grid" id="articlesContainer">
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <span>加载文章中...</span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="assets/js/config.js"></script>
+    <script src="weather.js"></script>
+    <script src="mobile-menu.js"></script>
+    <script>
+        // AI资讯管理类
+        class AINewsManager {
+            constructor() {
+                this.articles = [];
+                this.currentCategory = 'all';
+                this.articlesContainer = document.getElementById('articlesContainer');
+                this.init();
+            }
+
+            init() {
+                this.loadMockData();
+                this.bindEvents();
+                this.renderArticles();
+            }
+
+            // 加载模拟AI资讯数据
+            loadMockData() {
+                this.articles = [
+                    {
+                        id: 1,
+                        title: 'OpenAI发布GPT-4.5 Turbo model，性能提升显著',
+                        excerpt: 'OpenAI今日宣布推出GPT-4.5 Turbo模型，该模型在保持高质量输出的同时，响应速度提升40%，成本降低25%。新模型特别适合实时应用场景...',
+                        category: 'llm',
+                        author: 'AI前沿',
+                        date: '2024-03-15',
+                        url: 'https://36kr.com'
+                    },
+                    {
+                        id: 2,
+                        title: '微软Copilot集成新版AI助手，办公效率翻倍',
+                        excerpt: '微软宣布Microsoft 365 Copilot将集成全新的AI助手，能够自动处理邮件、文档、表格等办公任务，预计能将用户办公效率提升200%...',
+                        category: 'apps',
+                        author: '科技日报',
+                        date: '2024-03-14',
+                        url: 'https://www.ithome.com'
+                    },
+                    {
+                        id: 3,
+                        title: '斯坦福研究：AI在医疗诊断准确率超过人类医生',
+                        excerpt: '斯坦福大学医学院最新研究显示，AI系统在诊断某些疾病的准确率已经超过经验丰富的人类医生，特别是在早期癌症筛查方面表现突出...',
+                        category: 'research',
+                        author: '医学前沿',
+                        date: '2024-03-13',
+                        url: 'https://v2ex.com'
+                    },
+                    {
+                        id: 4,
+                        title: '谷歌Gemini Pro API向所有开发者开放',
+                        excerpt: '谷歌宣布Gemini Pro API正式向所有开发者开放，支持多模态输入，包括文本、图像、音频和视频，定价相比竞争对手更具竞争力...',
+                        category: 'industry',
+                        author: '开发者资讯',
+                        date: '2024-03-12',
+                        url: 'https://sspai.com'
+                    },
+                    {
+                        id: 5,
+                        title: 'Meta推出开源AI代码生成工具Code Llama',
+                        excerpt: 'Meta发布开源AI代码生成工具Code Llama，声称性能超越GPT-4，完全免费供商业使用，这一举措将对开发工具行业产生重大影响...',
+                        category: 'apps',
+                        author: '开源世界',
+                        date: '2024-03-11',
+                        url: 'https://juejin.cn'
+                    },
+                    {
+                        id: 6,
+                        title: '清华大学发布中文大模型，理解能力大幅提升',
+                        excerpt: '清华大学人工智能研究院发布最新中文大模型，在中文理解、推理 and 生成方面都有显著提升，特别是在古诗词 and 传统文化理解方面表现优异...',
+                        category: 'llm',
+                        author: '学术快报',
+                        date: '2024-03-10',
+                        url: 'https://36kr.com'
+                    }
+                ];
+            }
+
+            // 绑定事件
+            bindEvents() {
+                // 分类横向标签点击
+                const tabItems = document.querySelectorAll('.tab-item');
+                tabItems.forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        tabItems.forEach(mi => mi.classList.remove('active'));
+                        item.classList.add('active');
+                        this.currentCategory = item.dataset.category;
+                        this.renderArticles();
+                    });
+                });
+
+                // 刷新按钮
+                const refreshBtn = document.querySelector('.refresh-btn');
+                if (refreshBtn) {
+                    refreshBtn.addEventListener('click', () => {
+                        this.refreshArticles();
+                    });
+                }
+                
+                // 返回顶部
+                const backToTop = document.getElementById('backToTop');
+                if (backToTop) {
+                    window.addEventListener('scroll', () => {
+                        if (window.scrollY > 300) {
+                            backToTop.classList.add('show');
+                        } else {
+                            backToTop.classList.remove('show');
+                        }
+                    });
+                    backToTop.addEventListener('click', () => {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    });
+                }
+            }
+
+            // 渲染文章
+            renderArticles() {
+                const filteredArticles = this.currentCategory === 'all' 
+                    ? this.articles 
+                    : this.articles.filter(article => article.category === this.currentCategory);
+
+                this.articlesContainer.innerHTML = '';
+                
+                filteredArticles.forEach(article => {
+                    const articleCard = this.createArticleCard(article);
+                    this.articlesContainer.appendChild(articleCard);
+                });
+
+                // 更新文章数量
+                const countElement = document.getElementById('articleCount');
+                if (countElement) {
+                    countElement.textContent = filteredArticles.length;
+                }
+            }
+
+            // 创建文章卡片
+            createArticleCard(article) {
+                const card = document.createElement('a');
+                card.className = 'article-card';
+                card.href = article.url || '#';
+                card.target = '_blank';
+                card.rel = 'noopener noreferrer';
+
+                const categoryColors = {
+                    'llm': 'category-llm',
+                    'apps': 'category-apps',
+                    'research': 'category-research',
+                    'industry': 'category-industry'
+                };
+
+                card.innerHTML = `
+                    <div class="article-category-tag ${categoryColors[article.category] || 'category-default'}"></div>
+                    <h3 class="article-title">${article.title}</h3>
+                    <p class="article-excerpt">${article.excerpt}</p>
+                    <div class="article-meta">
+                        <span class="article-author">${article.author}</span>
+                        <span class="article-date">${article.date}</span>
+                    </div>
+                `;
+
+                return card;
+            }
+
+            // 刷新文章
+            refreshArticles() {
+                const refreshBtn = document.querySelector('.refresh-btn i');
+                if (refreshBtn) {
+                    refreshBtn.classList.add('fa-spin');
+                }
+
+                // 模拟刷新延迟
+                setTimeout(() => {
+                    this.loadMockData();
+                    this.renderArticles();
+                    if (refreshBtn) {
+                        refreshBtn.classList.remove('fa-spin');
+                    }
+                }, 1000);
+            }
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            window.newsManager = new AINewsManager();
+        });
+
+        // 全局函数
+        window.refreshArticles = () => {
+            if (window.newsManager) {
+                window.newsManager.refreshArticles();
+            }
+        };
+    </script>
+
+    <style>
+        /* 页面居中布局优化 */
+        .app-container {
+            max-width: 1200px !important;
+            margin: 0 auto;
+            width: 100%;
+            padding-top: 84px;
+        }
+        
+        .main-wrapper {
+            display: block !important;
+        }
+        
+        .main-content {
+            margin-left: 0 !important;
+            width: 100% !important;
+        }
+
+        /* 横向 Tab 栏样式 */
+        .horizontal-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .horizontal-tabs::-webkit-scrollbar { display: none; }
+
+        .tab-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: #fff;
+            color: #666;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            border: 1px solid #e5e7eb;
+        }
+        .tab-item:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        .tab-item.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* 文章页面样式 */
+        .articles-container {
+            min-height: 400px;
+        }
+
+        .articles-grid {
+            display: grid;
+            gap: 24px;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media screen and (max-width: 1024px) {
+            .articles-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            border-color: var(--primary);
+        }
+
+        .article-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .article-excerpt {
+            color: var(--text-sub);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .section-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .article-count {
+            font-size: 14px;
+            color: var(--text-sub);
+            background: var(--bg-gray);
+            padding: 6px 12px;
+            border-radius: 16px;
+        }
+
+        .article-count span {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            z-index: 1000;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 响应式适配 */
+        @media screen and (max-width: 768px) {
+            .articles-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</body>
+</html>
