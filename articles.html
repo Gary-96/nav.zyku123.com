@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- 1. 顶部固定导航 -->
     <header class="fixed-header">
         <div class="header-left">
             <div class="logo-wrapper">
@@ -28,7 +27,6 @@
             </nav>
         </div>
         <div class="header-right">
-            <!-- 天气信息 -->
             <div class="weather-info" id="weather-widget">
                 <span class="weather-city">襄阳</span>
                 <span class="weather-icon">☁️</span>
@@ -53,12 +51,10 @@
         </div>
     </header>
 
-    <!-- 2. 文章内容区域 (Refactor 2026) -->
     <div class="app-container">
         <div class="main-wrapper">
             <main class="main-content">
                 <div class="news-section">
-                    <!-- 顶层头部 -->
                     <div class="news-header">
                         <div class="title-group">
                             <h1>AI 资讯速递</h1>
@@ -70,7 +66,6 @@
                         </button>
                     </div>
 
-                    <!-- 分类标签 -->
                     <div class="news-tags">
                         <div class="news-tag active">全部资讯</div>
                         <div class="news-tag">大语言模型</div>
@@ -79,28 +74,20 @@
                         <div class="news-tag">产业观察</div>
                     </div>
 
-                    <!-- 网格容器 (ID 已按要求设置为 news-grid) -->
                     <div class="news-grid-container" id="news-grid">
-                        <!-- 骨架屏或内容将在此生成 -->
-                    </div>
+                        </div>
                 </div>
             </main>
         </div>
     </div>
 
-    <!-- 返回顶部按钮 -->
     <button class="back-to-top" id="backToTop">
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- JavaScript 逻辑集成 -->
     <script src="weather.js"></script>
     <script src="mobile-menu.js"></script>
     <script>
-        /**
-         * 兜底数据 (Fallback Data)
-         * 确保请求失败或超时时页面不空白。链接改为百度搜索对应新闻。
-         */
         const FALLBACK_NEWS = [
             { title: "OpenAI 发布 o1 模型：强化学习推理能力大幅提升" },
             { title: "DeepSeek-V3 开启全网公测：国产大模型性能比肩 GPT-4" },
@@ -113,15 +100,11 @@
             url: `https://www.baidu.com/s?wd=${encodeURIComponent(item.title)}`
         }));
 
-        /**
-         * 获取并渲染新闻内容
-         */
         async function fetchNews() {
             const grid = document.getElementById('news-grid');
             const countEl = document.getElementById('newsCount');
             const refreshIcon = document.querySelector('.news-refresh-btn i');
 
-            // 1. 初始化并生成 6 个骨架屏卡片
             grid.innerHTML = Array(6).fill(0).map(() => `
                 <div class="news-card skeleton">
                     <div class="s-title skeleton-shimmer"></div>
@@ -132,7 +115,6 @@
             
             if(refreshIcon) refreshIcon.classList.add('fa-spin');
 
-            // 2. 准备 Fetch (带 3 秒超时限制)
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 3000);
 
@@ -150,7 +132,6 @@
                 }
             } catch (error) {
                 console.warn('Fetch News Failed / Timeout / DNS Error:', error);
-                // 3. 执行兜底策略
                 renderNewsItems(FALLBACK_NEWS);
                 countEl.innerText = FALLBACK_NEWS.length;
             } finally {
@@ -158,14 +139,9 @@
             }
         }
 
-        /**
-         * 真正的渲染函数
-         * 确保提取正确的链接字段 (url)，绑定新标签页打开属性
-         */
         function renderNewsItems(data) {
             const grid = document.getElementById('news-grid');
             grid.innerHTML = data.map(item => {
-                // 确保支持不同的接口返回字段 (url 或 mobilUrl)
                 const link = item.url || item.mobilUrl || '#';
                 return `
                     <a href="${link}" target="_blank" rel="noopener noreferrer" class="news-card">
@@ -179,11 +155,8 @@
             }).join('');
         }
 
-        // 初始化加载
         document.addEventListener('DOMContentLoaded', () => {
             fetchNews();
-
-            // 返回顶部逻辑
             const btt = document.getElementById('backToTop');
             if (btt) {
                 window.addEventListener('scroll', () => {
@@ -203,26 +176,88 @@
             max-width: 1200px;
             margin: 0 auto;
             width: 100%;
-            padding: 100px 20px 60px; /* 顶部留出导航高度 */
+            padding: 100px 20px 60px;
+        }
+        .main-wrapper { display: block; }
+        .main-content { width: 100%; }
+
+        /* --- AI 资讯页：头部与标签排版优化 --- */
+        .news-section { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
+        .news-header {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: 24px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 16px;
         }
         
-        .main-wrapper {
-            display: block;
+        .title-group h1 { font-size: 28px; color: #1a1a1a; margin: 0 0 8px 0; font-weight: bold; }
+        .title-group p { font-size: 14px; color: #666; margin: 0; }
+        
+        .news-refresh-btn {
+            background: #4A90E2; color: #fff; border: none; padding: 8px 16px;
+            border-radius: 8px; cursor: pointer; font-size: 14px;
+            transition: all 0.3s ease; display: flex; align-items: center; gap: 6px; font-weight: 500;
+        }
+        .news-refresh-btn:hover {
+            background: #357ABD; transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
         }
         
-        .main-content {
-            width: 100%;
+        .news-tags { display: flex; gap: 12px; margin-bottom: 30px; flex-wrap: wrap; scrollbar-width: none; -ms-overflow-style: none; }
+        
+        .news-tag {
+            padding: 6px 18px; background: #f4f5f7; color: #555;
+            border-radius: 20px; font-size: 14px; cursor: pointer;
+            transition: all 0.3s ease; border: 1px solid transparent;
+        }
+        .news-tag:hover { background: #e8eaed; }
+        .news-tag.active { background: #e6f0fa; color: #4A90E2; border-color: #4A90E2; font-weight: 500; }
+
+        /* --- AI 资讯页专属网格卡片 --- */
+        .news-grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+        
+        .news-card {
+            background: #fff; border-radius: 12px; padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-decoration: none; color: inherit; display: flex;
+            flex-direction: column; justify-content: space-between;
+            min-height: 160px; border: 1px solid rgba(0,0,0,0.03);
+        }
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+        }
+        
+        .news-card h3 { font-size: 16px; line-height: 1.6; margin: 0 0 16px 0; color: #2c3e50; font-weight: 600; }
+        
+        .news-info { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #888; }
+        .news-info .source::before {
+            content: ''; display: inline-block; width: 6px; height: 6px;
+            background: #07C160; border-radius: 50%; margin-right: 6px; vertical-align: middle;
         }
 
-        /* 标签栏美化 */
-        .news-tags {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        /* 骨架屏补丁 */
+        /* 闪烁的骨架屏动画 */
         .skeleton { position: relative; }
+        .skeleton-shimmer {
+            background: #f0f2f5;
+            background-image: linear-gradient(90deg, #f0f2f5 0px, #e8eaed 40px, #f0f2f5 80px);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite linear;
+            border-radius: 4px;
+        }
+        .s-title { height: 20px; width: 100%; margin-bottom: 12px; }
+        .s-title-2 { height: 20px; width: 70%; margin-bottom: 24px; }
+        .s-meta { height: 12px; width: 100%; }
+        
+        @keyframes shimmer {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
     </style>
-
 </body>
 </html>
