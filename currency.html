@@ -48,12 +48,27 @@
             opacity: 0.9;
         }
 
-        /* 货币网格 */
+        /* 货币网格 - 三段响应式布局 */
         .currency-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: 1fr; /* 手机端 < 768px：1 列 */
+            gap: 24px;
             margin-top: 30px;
+            width: 100%;
+        }
+
+        /* 平板/小电脑 768px - 1024px：2 列 */
+        @media (min-width: 768px) {
+            .currency-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+
+        /* 大屏电脑 > 1024px：3 列 */
+        @media (min-width: 1024px) {
+            .currency-grid {
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
         }
 
         .currency-card {
