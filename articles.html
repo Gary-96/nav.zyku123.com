@@ -173,7 +173,11 @@
     </script>
 
     <style>
-        /* --- 解除老模板的宽度封印 --- */
+        /* =========================================
+           AI 资讯页：专属核心内联样式区
+           ========================================= */
+
+        /* 1. 解除老模板宽度封印 */
         .app-container,
         .main-wrapper,
         .main-content {
@@ -181,95 +185,170 @@
             max-width: 100% !important;
             padding-left: 0 !important;
             padding-right: 0 !important;
-            margin-left: 0 !important;
-            margin-right: 0 !important;
         }
 
-        .app-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-            padding: 100px 20px 60px;
-            /* 顶部留出导航高度 */
+        .news-section {
+            max-width: 1200px !important;
+            width: 100% !important;
+            margin: 0 auto !important;
+            padding: 100px 20px 60px !important;
+            box-sizing: border-box !important;
         }
 
-        .main-wrapper {
-            display: block;
+        /* 2. 头部排版 (左右对齐) */
+        .news-header {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: flex-end !important;
+            margin-bottom: 24px !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+            padding-bottom: 16px !important;
         }
 
-        .main-content {
-            width: 100%;
+        .title-group h1 {
+            font-size: 28px !important;
+            color: #1a1a1a !important;
+            margin: 0 0 8px 0 !important;
+            font-weight: bold !important;
+        }
+
+        .title-group p {
+            font-size: 14px !important;
+            color: #666 !important;
+            margin: 0 !important;
+        }
+
+        /* 刷新按钮 */
+        .news-refresh-btn {
+            background: #4A90E2 !important;
+            color: #fff !important;
+            border: none !important;
+            padding: 8px 16px !important;
+            border-radius: 8px !important;
+            cursor: pointer !important;
+            font-size: 14px !important;
+            transition: all 0.3s ease !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            font-weight: 500 !important;
+        }
+
+        .news-refresh-btn:hover {
+            background: #357ABD !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3) !important;
+        }
+
+        /* 3. 胶囊标签排版 (横向排列) */
+        .news-tags {
+            display: flex !important;
+            gap: 12px !important;
+            margin-bottom: 30px !important;
+            flex-wrap: wrap !important;
+        }
+
+        .news-tag {
+            padding: 6px 18px !important;
+            background: #f4f5f7 !important;
+            color: #555 !important;
+            border-radius: 20px !important;
+            font-size: 14px !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            border: 1px solid transparent !important;
+            margin: 0 !important;
+            display: block !important;
         }
 
         .news-tag:hover {
-            background: #e8eaed;
+            background: #e8eaed !important;
         }
 
         .news-tag.active {
-            background: #e6f0fa;
-            color: #4A90E2;
-            border-color: #4A90E2;
-            font-weight: 500;
+            background: #e6f0fa !important;
+            color: #4A90E2 !important;
+            border-color: #4A90E2 !important;
+            font-weight: 500 !important;
         }
 
-        /* --- AI 资讯页专属网格卡片 --- */
+        /* 4. 强制响应式网格 (核心修改：杜绝4列，强制1/2/3列) */
         .news-grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 20px;
-            margin-top: 24px;
+            display: grid !important;
+            gap: 24px !important;
+            margin-top: 24px !important;
+            grid-template-columns: 1fr !important;
+            /* 手机端1列 */
         }
 
+        @media (min-width: 768px) {
+            .news-grid-container {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            /* 平板2列 */
+        }
+
+        @media (min-width: 1024px) {
+            .news-grid-container {
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
+
+            /* 电脑3列 */
+        }
+
+        /* 5. 卡片样式 */
         .news-card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 160px;
-            border: 1px solid rgba(0, 0, 0, 0.03);
+            background: #fff !important;
+            border-radius: 12px !important;
+            padding: 24px !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+            text-decoration: none !important;
+            color: inherit !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+            min-height: 160px !important;
+            border: 1px solid rgba(0, 0, 0, 0.03) !important;
         }
 
         .news-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+            transform: translateY(-5px) !important;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08) !important;
         }
 
         .news-card h3 {
-            font-size: 16px;
-            line-height: 1.6;
-            margin: 0 0 16px 0;
-            color: #2c3e50;
-            font-weight: 600;
+            font-size: 16px !important;
+            line-height: 1.6 !important;
+            margin: 0 0 16px 0 !important;
+            color: #2c3e50 !important;
+            font-weight: 600 !important;
         }
 
         .news-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-            color: #888;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            font-size: 12px !important;
+            color: #888 !important;
         }
 
         .news-info .source::before {
-            content: '';
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            background: #07C160;
-            border-radius: 50%;
-            margin-right: 6px;
-            vertical-align: middle;
+            content: '' !important;
+            display: inline-block !important;
+            width: 6px !important;
+            height: 6px !important;
+            background: #07C160 !important;
+            border-radius: 50% !important;
+            margin-right: 6px !important;
+            vertical-align: middle !important;
         }
 
-        /* 闪烁的骨架屏动画 */
+        /* 6. 骨架屏 */
         .skeleton {
             position: relative;
+            border: none;
         }
 
         .skeleton-shimmer {
