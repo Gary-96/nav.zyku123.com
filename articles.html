@@ -99,16 +99,19 @@
     <script>
         /**
          * 兜底数据 (Fallback Data)
-         * 确保请求失败或超时时页面不空白
+         * 确保请求失败或超时时页面不空白。链接改为百度搜索对应新闻。
          */
         const FALLBACK_NEWS = [
-            { title: "OpenAI 发布 o1 模型：强化学习推理能力大幅提升", url: "https://36kr.com" },
-            { title: "DeepSeek-V3 开启全网公测：国产大模型性能比肩 GPT-4", url: "https://juejin.cn" },
-            { title: "Midjourney v7 即将到来：支持更高分辨率与精准提示词", url: "https://www.ithome.com" },
-            { title: "Kimi 智能助手长文本能力升级，支持 1000 万字上下文输入", url: "https://36kr.com" },
-            { title: "Google Gemini 1.5 Pro 性能实测：在编码与推理领域表现强劲", url: "https://sspai.com" },
-            { title: "字节跳动豆包大模型商业化加速，日均 tokens 调用量破千亿", url: "https://36kr.com" }
-        ];
+            { title: "OpenAI 发布 o1 模型：强化学习推理能力大幅提升" },
+            { title: "DeepSeek-V3 开启全网公测：国产大模型性能比肩 GPT-4" },
+            { title: "Midjourney v7 即将到来：支持更高分辨率与精准提示词" },
+            { title: "Kimi 智能助手长文本能力升级，支持 1000 万字上下文输入" },
+            { title: "Google Gemini 1.5 Pro 性能实测：在编码与推理领域表现强劲" },
+            { title: "字节跳动豆包大模型商业化加速，日均 tokens 调用量破千亿" }
+        ].map(item => ({
+            ...item,
+            url: `https://www.baidu.com/s?wd=${encodeURIComponent(item.title)}`
+        }));
 
         /**
          * 获取并渲染新闻内容
@@ -146,7 +149,7 @@
                     throw new Error('API Response Error');
                 }
             } catch (error) {
-                console.warn('Fetch News Failed / Timeout:', error);
+                console.warn('Fetch News Failed / Timeout / DNS Error:', error);
                 // 3. 执行兜底策略
                 renderNewsItems(FALLBACK_NEWS);
                 countEl.innerText = FALLBACK_NEWS.length;
@@ -157,18 +160,23 @@
 
         /**
          * 真正的渲染函数
+         * 确保提取正确的链接字段 (url)，绑定新标签页打开属性
          */
         function renderNewsItems(data) {
             const grid = document.getElementById('news-grid');
-            grid.innerHTML = data.map(item => `
-                <a href="${item.url}" target="_blank" class="news-card">
-                    <h3>${item.title}</h3>
-                    <div class="news-info">
-                        <span class="source">36氪 · AI热门</span>
-                        <span class="date">${new Date().toLocaleDateString('zh-CN')}</span>
-                    </div>
-                </a>
-            `).join('');
+            grid.innerHTML = data.map(item => {
+                // 确保支持不同的接口返回字段 (url 或 mobilUrl)
+                const link = item.url || item.mobilUrl || '#';
+                return `
+                    <a href="${link}" target="_blank" rel="noopener noreferrer" class="news-card">
+                        <h3>${item.title}</h3>
+                        <div class="news-info">
+                            <span class="source">36氪 · AI热门</span>
+                            <span class="date">${new Date().toLocaleDateString('zh-CN')}</span>
+                        </div>
+                    </a>
+                `;
+            }).join('');
         }
 
         // 初始化加载
