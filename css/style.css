@@ -1865,3 +1865,60 @@ body[data-theme="dark"],
     0% { background-position: 100% 0; }
     100% { background-position: -100% 0; }
 }
+
+/* --- 全球货币实时转换页专属样式 --- */
+
+/* 2列网格布局 - 桌面端 */
+.currency-grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 24px;
+}
+
+/* 手机端回落到单列 */
+@media (max-width: 768px) {
+    .currency-grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 基准货币选择器 - 现代化升级 */
+.base-currency-selector select {
+    padding: 10px 24px;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    appearance: auto;
+}
+
+.base-currency-selector select:hover,
+.base-currency-selector select:focus {
+    border-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
+    outline: none;
+}
+
+/* 货币卡片 - 现代化升级（与 AI 资讯卡片风格统一） */
+.currency-card {
+    background: rgba(255, 255, 255, 0.97) !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10), 0 1px 4px rgba(0, 0, 0, 0.06) !important;
+    transition: transform 0.28s cubic-bezier(0.25, 0.8, 0.25, 1),
+                box-shadow 0.28s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+}
+
+.currency-card:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18), 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
