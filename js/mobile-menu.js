@@ -58,6 +58,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 窗口大小改变时重置类名
+    // 回到桌面宽度（>768px）时自动收起移动抽屉
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            closeSidebar();
+        }
     });
 });
 

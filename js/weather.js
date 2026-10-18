@@ -124,5 +124,8 @@ function quickSearch(keyword) {
 
 // 页面加载完成后初始化天气组件
 document.addEventListener('DOMContentLoaded', () => {
+    // 防御性检查：页面没有天气容器（如 privacy/404 等无组件页面）时直接跳过，
+    // 避免无谓的外部 API 请求与 30 分钟定时器
+    if (!document.getElementById('weather-widget')) return;
     new WeatherWidget();
 });

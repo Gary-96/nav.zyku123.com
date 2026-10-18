@@ -1922,3 +1922,27 @@ body[data-theme="dark"],
     transform: translateY(-6px) !important;
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18), 0 4px 12px rgba(0, 0, 0, 0.08) !important;
 }
+[0,2000 lines omitted]
+/* --- 站内搜索：卡片过滤与无结果提示 --- */
+.nav-card.is-search-hidden {
+    display: none !important;
+}
+
+#search-no-result {
+    position: fixed;
+    left: 50%;
+    bottom: 32px;
+    transform: translateX(-50%);
+    z-index: 1200;
+    padding: 10px 22px;
+    border-radius: 999px;
+    background: rgba(31, 41, 55, 0.92);
+    color: #fff;
+    font-size: 14px;
+    box-shadow: var(--shadow-hover);
+    display: none;
+}
+
+#search-no-result.show {
+    display: block;
+}

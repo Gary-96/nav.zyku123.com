@@ -67,6 +67,60 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentCategory = 'site';
     let currentEngine = 'local';
 
+    // ---------- 站内搜索：卡片即时过滤 ----------
+    // 预构建卡片搜索索引（名称 h3 + 描述 p + data-description + title + 链接地址）
+    const cardIndex = Array.from(document.querySelectorAll('.nav-card')).map(card => ({
+        card,
+        text: [
+            card.querySelector('h3') ? card.querySelector('h3').textContent : '',
+            card.querySelector('p') ? card.querySelector('p').textContent : '',
+            card.getAttribute('data-description') || '',
+            card.getAttribute('title') || '',
+            card.getAttribute('href') || ''
+        ].join(' ').toLowerCase()
+    }));
+
+    let noResultEl = null;
+    let filterTimer = null;
+
+    // 根据关键词显示/隐藏 .nav-card；关键词为空时恢复全部
+    function filterNavCards(keyword) {
+        if (cardIndex.length === 0) return; // 无卡片页面（如隐私页）无需处理
+        const kw = keyword.trim().toLowerCase();
+        let hasMatch = false;
+        cardIndex.forEach(item => {
+            const hidden = kw !== '' && !item.text.includes(kw);
+            item.card.classList.toggle('is-search-hidden', hidden);
+            if (!hidden) hasMatch = true;
+        });
+        toggleNoResultHint(kw !== '' && !hasMatch);
+    }
+
+    // 定位并滚动到第一个可见的匹配卡片
+    function scrollFirstMatch() {
+        const first = cardIndex.find(item => !item.card.classList.contains('is-search-hidden'));
+        if (first) first.card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function toggleNoResultHint(show) {
+        if (show && !noResultEl) {
+            noResultEl = document.createElement('div');
+            noResultEl.id = 'search-no-result';
+            noResultEl.textContent = '未找到匹配的站内资源，换个关键词试试';
+            document.body.appendChild(noResultEl);
+        }
+        if (noResultEl) noResultEl.classList.toggle('show', show);
+    }
+
+    // 输入实时过滤（防抖 120ms，仅 local 引擎生效）
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            if (currentEngine !== 'local') return;
+            clearTimeout(filterTimer);
+            filterTimer = setTimeout(() => filterNavCards(searchInput.value), 120);
+        });
+    }
+
     // 分类切换
     categoryItems.forEach(item => {
         item.addEventListener('click', function() {
@@ -104,9 +158,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const config = searchEngines[currentEngine];
             
             if (currentEngine === 'local') {
-                if (keyword) {
-                    console.log('触发站内搜索:', keyword);
-                }
+                filterNavCards(keyword);
+                if (keyword) scrollFirstMatch();
                 return;
             }
 
@@ -196,8 +249,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // 站内搜索特殊处理
         if (currentEngine === 'local') {
             e.preventDefault();
-            // 这里可以添加站内搜索逻辑
-            console.log('站内搜索:', query);
+            filterNavCards(query);
+            if (query) scrollFirstMatch();
             return;
         }
     });
