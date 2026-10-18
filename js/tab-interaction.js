@@ -6,23 +6,33 @@ window.filterCards = function(gridId, subcat, el) {
     const grid = document.getElementById(gridId);
     if (!grid) return;
 
-    // 1. 过滤当前网格内的卡片
-    grid.querySelectorAll('.nav-card').forEach(card => {
-        const show = (subcat === 'all' || card.dataset.subcat === subcat);
-        card.style.display = show ? '' : 'none';
-    });
-
-    // 2. 状态联动：同步对应 section 内的 Tab active 状态
-    const section = grid.closest('.content-section') || grid.parentElement;
-    if (!section) return;
-    section.querySelectorAll('.sub-category-tab').forEach(tab => {
-        if (el) {
-            tab.classList.toggle('active', tab === el);
-        } else if (tab.getAttribute('onclick')) {
-            tab.classList.toggle('active', tab.getAttribute('onclick').includes("'" + subcat + "'"));
+    // 1. 强制过滤卡片（带 !important 避免被高权重 CSS 覆盖）
+    const cards = grid.querySelectorAll('.nav-card');
+    cards.forEach(card => {
+        const val = card.dataset.subcat || card.dataset.type || card.dataset.category;
+        const match = (subcat === 'all' || val === subcat);
+        if (match) {
+            card.style.removeProperty('display');
+        } else {
+            card.style.setProperty('display', 'none', 'important');
         }
     });
+
+    // 2. 同步 Tab 高亮样式
+    const section = grid.closest('.content-section') || grid.parentElement;
+    if (section) {
+        const tabs = section.querySelectorAll('.sub-category-tab');
+        tabs.forEach(tab => {
+            if (el) {
+                tab.classList.toggle('active', tab === el);
+            } else {
+                const onclickStr = tab.getAttribute('onclick') || '';
+                tab.classList.toggle('active', onclickStr.includes(`'${subcat}'`));
+            }
+        });
+    }
 };
+
 
 // 侧边栏联动内容区 Tab 交互系统
 document.addEventListener('DOMContentLoaded', function() {
