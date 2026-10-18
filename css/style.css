@@ -276,15 +276,6 @@ img { display: block; max-width: 100%; }
     position: sticky !important;
     top: calc(var(--header-height) + 20px); /* 距离Header底部20px时锁定，保留呼吸感 */
     
-    /* 核心：宽度自适应 */
-    width: auto !important;
-    min-width: 140px !important; /* 设置一个最小保底宽度 */
-    max-width: 200px !important; /* 防止极端情况下太宽 */
-    
-    /* 彻底移除溢出裁剪，确保二级菜单完全可见 - 紧急修复 */
-    overflow: visible !important;
-    overflow-x: visible !important;
-    overflow-y: visible !important;
     z-index: 1001; /* 提高层级，确保二级菜单不被遮挡 */
     
     background: rgba(255, 255, 255, 0.9) !important; /* 增加高级感 */
@@ -394,39 +385,49 @@ img { display: block; max-width: 100%; }
 
 .submenu-dropdown {
     position: absolute;
-    left: calc(100% + 8px); /* 与侧边栏保持8px间距 */
+    left: 100%;
     top: 0;
-    width: 300px;
-    max-height: 420px;
-    /* 深色毛玻璃效果 */
-    background: rgba(30, 30, 35, 0.96) !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.2);
+    width: 180px;
+    background: #1e293b;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
     opacity: 0;
     visibility: hidden;
-    transform: translateX(-8px); /* 初始偏移 */
-    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
-    z-index: 99999;
-    padding: 12px;
     pointer-events: none;
-    overflow-y: auto;
-    overflow-x: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    transform: translateX(8px);
+    z-index: 999;
 }
 
-/* 悬停触发显示 */
-.menu-item-wrapper:hover .submenu-dropdown {
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: translateX(0) !important;
-    pointer-events: auto !important;
+/* 桌面端精准悬停与防脱手（触屏设备不参与 hover，避免粘滞常驻） */
+@media (hover: hover) and (pointer: fine) {
+    .sidebar-menu .menu-item-wrapper {
+        position: relative;
+    }
+
+    /* 悬停展开 */
+    .sidebar-menu .menu-item-wrapper:hover > .submenu-dropdown {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateX(0);
+    }
+
+    /* 防脱手透明桥接层：覆盖菜单与浮层之间的 8px 缝隙，鼠标横向划入不会闪退 */
+    .sidebar-menu .submenu-dropdown::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -12px;
+        width: 12px;
+        height: 100%;
+    }
 }
 
 .submenu-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 两列布局 */
+    grid-template-columns: 1fr; /* 180px 面板内改为单列，避免两列挤压导致文案省略 */
     gap: 8px; /* 适当缩小间距，使布局更紧凑 */
 }
 
@@ -1542,7 +1543,7 @@ body {
         position: sticky; /* 保持固定定位 */
         top: var(--header-height);
         height: calc(100vh - var(--header-height));
-        overflow-y: auto;
+        overflow-y: auto !important;
     }
 }
 
