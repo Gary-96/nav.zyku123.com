@@ -1386,7 +1386,7 @@ body {
 .nav-card-icon {
     width: 32px !important;
     height: 32px !important;
-    border-radius: 6px !important;
+    border-radius: 50% !important; /* 圆形图标 */
     margin-right: 12px !important;
     flex-shrink: 0 !important;
     display: flex !important;
@@ -1394,6 +1394,14 @@ body {
     justify-content: center !important;
     font-size: 16px !important;
     background: #f8fafc !important;
+    border: 1px solid rgba(148, 163, 184, 0.35); /* 透明 logo 的圆形描边 */
+    overflow: hidden;
+}
+
+/* 图片型 logo 圆形裁切填充（兼容 <img class="nav-card-icon"> 与嵌套 <img> 两种结构） */
+img.nav-card-icon,
+.nav-card .nav-card-icon img {
+    object-fit: cover;
 }
 
 .card-info {
@@ -1961,4 +1969,54 @@ body[data-theme="dark"],
 
 #search-no-result.show {
     display: block;
+}
+
+/* ===== 我的收藏 / 常用推荐 - 卡片收藏星标 ===== */
+/* 卡片定位容器基准（.nav-card 已自带 position:relative，此处保留声明以独立成块） */
+.nav-card {
+    position: relative;
+}
+
+/* 收藏星标按钮 */
+.favorite-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--text-muted, #94a3b8);
+    font-size: 14px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.15s ease, color 0.15s ease;
+    z-index: 10;
+}
+
+/* 鼠标悬停卡片或已收藏状态下显示星标 */
+.nav-card:hover .favorite-btn,
+.favorite-btn.favorited {
+    opacity: 1;
+}
+
+.favorite-btn:hover {
+    transform: scale(1.15);
+}
+
+/* 已收藏金星样式 */
+.favorite-btn.favorited {
+    color: #eab308; /* amber-500 金黄色 */
+}
+
+/* 触屏设备无 hover：默认常显星标，保证可发现性 */
+@media (hover: none) and (pointer: coarse) {
+    .favorite-btn {
+        opacity: 0.65;
+    }
+    .favorite-btn.favorited {
+        opacity: 1;
+    }
 }
