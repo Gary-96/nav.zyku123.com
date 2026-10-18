@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,8 +8,8 @@
     <title>实时汇率转换器 | 优创导航 - 发现全球优质 AI 资源</title>
     <link rel="icon" href="./assets/images/favicon.webp" type="image/webp">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -22,155 +22,75 @@
             min-height: 100vh;
         }
 
-        /* 主容器 */
+        /* 主容器解除限制 */
         .currency-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            padding-top: 32px;
+            width: 100% !important;
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+            padding: 100px 20px 40px !important; /* 留出顶部导航栏 */
         }
 
-        .converter-header {
-            text-align: center;
-            color: #fff;
-            margin-bottom: 40px;
-        }
+        .converter-header { text-align: center; color: #fff; margin-bottom: 40px; }
+        .converter-header h1 { font-size: 48px; font-weight: bold; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .converter-header p { font-size: 18px; opacity: 0.9; }
 
-        .converter-header h1 {
-            font-size: 48px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        .converter-header p {
-            font-size: 18px;
-            opacity: 0.9;
-        }
-
-        /* 货币网格 - 三段响应式布局 */
+        /* --- 强制响应式网格 --- */
         .currency-grid {
-            display: grid;
-            grid-template-columns: 1fr; /* 手机端 < 768px：1 列 */
-            gap: 24px;
-            margin-top: 30px;
-            width: 100%;
+            display: grid !important;
+            gap: 24px !important;
+            margin-top: 30px !important;
+            width: 100% !important;
+            grid-template-columns: 1fr !important; /* 手机端 1列 */
         }
 
-        /* 平板/小电脑 768px - 1024px：2 列 */
         @media (min-width: 768px) {
-            .currency-grid {
-                grid-template-columns: repeat(2, 1fr) !important;
-            }
+            .currency-grid { grid-template-columns: repeat(2, 1fr) !important; } /* 平板 2列 */
         }
 
-        /* 大屏电脑 > 1024px：3 列 */
         @media (min-width: 1024px) {
-            .currency-grid {
-                grid-template-columns: repeat(3, 1fr) !important;
-            }
+            .currency-grid { grid-template-columns: repeat(3, 1fr) !important; } /* 电脑 3列 */
         }
 
+        /* --- 卡片及内部元素 --- */
         .currency-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.95) !important;
+            border-radius: 15px !important; padding: 25px !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important; transition: all 0.3s !important;
         }
-
-        .currency-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-        }
-
-        .currency-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-
-        .currency-flag {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .currency-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
+        .currency-card:hover { transform: translateY(-5px) !important; box-shadow: 0 15px 40px rgba(0,0,0,0.3) !important; }
+        
+        .currency-header { display: flex !important; align-items: center !important; gap: 12px !important; margin-bottom: 15px !important; }
+        .currency-flag { width: 32px !important; height: 32px !important; border-radius: 50% !important; object-fit: cover !important; }
+        .currency-name { font-size: 16px !important; font-weight: 600 !important; color: #333 !important; white-space: nowrap !important; }
+        
+        /* 实时汇率微标 */
+        .currency-rate {
+            font-size: 13px !important; font-weight: 500 !important; padding: 4px 8px !important;
+            border-radius: 6px !important; background: rgba(16, 185, 129, 0.1) !important; color: #10b981 !important;
+            white-space: nowrap !important; transition: all 0.3s !important;
         }
 
         .currency-code {
-            font-size: 14px;
-            color: #666;
-            margin-left: auto;
-            background: #f0f0f0;
-            padding: 4px 12px;
-            border-radius: 12px;
+            font-size: 14px !important; color: #666 !important; margin-left: auto !important;
+            background: #f0f0f0 !important; padding: 4px 12px !important; border-radius: 12px !important; font-weight: 500 !important;
         }
 
         .currency-input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 24px;
-            font-weight: 600;
-            color: #333;
-            transition: all 0.3s;
+            width: 100% !important; padding: 15px !important; border: 2px solid #e0e0e0 !important;
+            border-radius: 10px !important; font-size: 24px !important; font-weight: 600 !important;
+            color: #333 !important; transition: all 0.3s !important; font-family: inherit !important;
         }
+        .currency-input:focus { outline: none !important; border-color: #667eea !important; box-shadow: 0 0 0 3px rgba(102,126,234,0.1) !important; }
 
-        .currency-input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
-        }
-
-        .update-info {
-            text-align: center;
-            color: rgba(255,255,255,0.8);
-            font-size: 14px;
-            margin-top: 30px;
-            padding: 15px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-        }
-
-        .base-currency-selector {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .base-currency-selector label {
-            color: #fff;
-            font-size: 16px;
-            margin-right: 15px;
-            font-weight: 600;
-        }
-
-        .base-currency-selector select {
-            padding: 10px 20px;
-            border-radius: 10px;
-            border: 2px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.2);
-            color: #fff;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .base-currency-selector select option {
-            background: #2a5298;
-            color: #fff;
-        }
-</style>
+        /* --- 其他信息 --- */
+        .update-info { text-align: center; color: rgba(255,255,255,0.8); font-size: 14px; margin-top: 30px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .base-currency-selector { text-align: center; margin-bottom: 30px; }
+        .base-currency-selector label { color: #fff; font-size: 16px; margin-right: 15px; font-weight: 600; }
+        .base-currency-selector select { padding: 10px 20px; border-radius: 10px; border: 2px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.2); color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; }
+        .base-currency-selector select option { background: #2a5298; color: #fff; }
+    </style>
 </head>
 <body>
-    <!-- 1. 顶部固定导航 -->
     <header class="fixed-header">
         <div class="header-left">
             <div class="logo-wrapper">
@@ -188,7 +108,6 @@
             </nav>
         </div>
         <div class="header-right">
-            <!-- 天气信息 -->
             <div class="weather-info" id="weather-widget">
                 <span class="weather-city">襄阳</span>
                 <span class="weather-icon">☁️</span>
@@ -213,7 +132,6 @@
         </div>
     </header>
 
-    <!-- 主内容 -->
     <div class="currency-container">
         <div class="converter-header">
             <h1>全球货币实时转换</h1>
@@ -235,9 +153,8 @@
             </select>
         </div>
 
-        <div class="currency-grid currency-grid-container" id="currency-grid">
-            <!-- 货币卡片将通过 JavaScript 动态生成 -->
-        </div>
+        <div class="currency-grid" id="currency-grid">
+            </div>
 
         <div class="update-info" id="update-info">
             汇率更新时间：加载中...
@@ -280,7 +197,7 @@
         }
     }
 
-    // 创建货币卡片
+    // 创建货币卡片，植入“实时汇率微标”
     function createCurrencyCards() {
         const grid = document.getElementById('currency-grid');
         grid.innerHTML = '';
@@ -288,12 +205,15 @@
         Object.keys(currencies).forEach(code => {
             const card = document.createElement('div');
             card.className = 'currency-card';
+            
+            // 核心修改：增加 id="rate-${code}" 标签
             card.innerHTML = `
                 <div class="currency-header">
                     <img src="https://flagcdn.com/w40/${currencies[code].flag}.webp" 
                          alt="${code}" 
                          class="currency-flag">
                     <span class="currency-name">${currencies[code].name}</span>
+                    <span class="currency-rate" id="rate-${code}">加载中...</span>
                     <span class="currency-code">${code}</span>
                 </div>
                 <input type="number" 
@@ -314,7 +234,29 @@
         });
     }
 
-    // 更新所有货币
+    // 更新页面上的“实时汇率微标”数值
+    function updateRateDisplays() {
+        Object.keys(currencies).forEach(code => {
+            const rateEl = document.getElementById(`rate-${code}`);
+            if (rateEl && exchangeRates[code]) {
+                if (code === baseCurrency) {
+                    // 如果是基准货币本身，显示“基准”且变灰
+                    rateEl.textContent = '当前基准';
+                    rateEl.style.color = '#888';
+                    rateEl.style.background = '#f5f5f5';
+                } else {
+                    // 显示例如 1 CNY = xxx VND
+                    let rateVal = exchangeRates[code];
+                    let displayVal = rateVal < 0.01 ? rateVal.toFixed(6) : rateVal.toFixed(4);
+                    rateEl.textContent = `1 ${baseCurrency} = ${displayVal} ${code}`;
+                    rateEl.style.color = '#10b981';
+                    rateEl.style.background = 'rgba(16, 185, 129, 0.1)';
+                }
+            }
+        });
+    }
+
+    // 联动计算所有货币的输入框
     function updateAllCurrencies(sourceCode, sourceAmount) {
         isUpdating = true;
 
@@ -324,8 +266,8 @@
                 if (input) {
                     const rate = exchangeRates[targetCode] / exchangeRates[sourceCode];
                     const result = sourceAmount * rate;
-                    // 如果源金额是0或未填写，则不显示 0.00 以免杂乱，或者显示 0
-                    if(sourceAmount === 0 || isNaN(sourceAmount)) {
+                    // 空值处理
+                    if (sourceAmount === 0 || isNaN(sourceAmount)) {
                         input.value = '';
                     } else {
                         input.value = result.toFixed(2);
@@ -337,29 +279,27 @@
         isUpdating = false;
     }
 
-    // 基准货币切换
+    // 切换基准货币
     document.getElementById('base-currency').addEventListener('change', async function() {
         baseCurrency = this.value;
         await fetchExchangeRates(baseCurrency);
+        updateRateDisplays(); // 更新微标
         
-        // 如果有输入值，重新计算
         const firstInput = document.getElementById(`input-${baseCurrency}`);
         if (firstInput && firstInput.value) {
             updateAllCurrencies(baseCurrency, parseFloat(firstInput.value) || 0);
         }
     });
 
-    // 初始化
+    // 初始化加载
     (async function() {
         createCurrencyCards();
         await fetchExchangeRates(baseCurrency);
-        
-        // 默认为 0，因此此处不再像以前一样预填 100 并强制计算
-        // 留空即可，输入框有 placeholder="0.00"
+        updateRateDisplays(); 
     })();
     </script>
-    <script src="weather.js"></script>
-    <script src="mobile-menu.js"></script>
-    <script src="theme-toggle.js"></script>
+    <script src="js/weather.js" defer></script>
+    <script src="js/mobile-menu.js" defer></script>
+    <script src="js/theme-toggle.js" defer></script>
 </body>
 </html>
