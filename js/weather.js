@@ -1,131 +1,176 @@
-// 天气组件 JavaScript - 真实天气版本 (修复了 ID 匹配问题)
-class WeatherWidget {
-    constructor() {
-        this.defaultCity = '北京'; // 默认保底城市
-        this.init();
+// 天气组件 - Open-Meteo + IP 定位 + localStorage 缓存版
+// 设计目标：首屏无跳变、请求有熔断、定位有降级、支持点击手动刷新
+(function () {
+    'use strict';
+
+    // ===== 常量 =====
+    const CACHE_KEY = 'weather-cache-v1';
+    const CACHE_TTL_MS = 20 * 60 * 1000;       // 缓存有效期 20 分钟
+    const REFRESH_INTERVAL_MS = 20 * 60 * 1000; // 定时器与 TTL 对齐
+    const REQUEST_TIMEOUT_MS = 4000;           // 外部请求 4 秒超时熔断
+    const DEFAULT_CITY = { city: '襄阳', lat: 32.0088, lon: 112.1226 };
+
+    // WMO 天气代码 -> Emoji（补全 53/78/85/86，未知代码兜底 🌡️）
+    function getWeatherEmoji(code) {
+        if (code === 0) return '☀️';                 // 晴
+        if (code === 1 || code === 2) return '⛅';    // 少云/多云
+        if (code === 3) return '☁️';                  // 阴
+        if ((code >= 45 && code <= 48) || code === 53) return '🌫️'; // 雾/冻雾
+        if (code >= 51 && code <= 67) return '🌧️';    // 毛毛雨/雨
+        if (code >= 71 && code <= 77 || code === 78) return '❄️';   // 雪/雪粒
+        if (code >= 80 && code <= 82) return '🌦️';    // 阵雨
+        if (code === 85) return '🌧️';                // 强阵雨
+        if (code === 86) return '🌨️';                // 强阵雨(冰粒)
+        if (code >= 95 && code <= 99) return '⛈️';    // 雷暴
+        return '🌡️';                                  // 未知代码兜底
     }
 
-    init() {
-        this.loadWeather();
-        // 每30分钟更新一次天气 (30 * 60 * 1000 毫秒)
-        setInterval(() => this.loadWeather(), 30 * 60 * 1000);
-    }
-
-    async loadWeather() {
+    // ===== localStorage 缓存（TTL 20 分钟）=====
+    function readCache() {
         try {
-            // 获取并显示真实天气数据
-            const weatherData = await this.fetchWeatherData();
-            this.updateWeatherDisplay(weatherData);
-        } catch (error) {
-            console.error('天气数据加载失败:', error);
-            this.showDefaultWeather();
+            const raw = localStorage.getItem(CACHE_KEY);
+            if (!raw) return null;
+            const cached = JSON.parse(raw);
+            return (cached && typeof cached.timestamp === 'number') ? cached : null;
+        } catch (e) {
+            return null; // 缓存损坏/存储不可用时静默降级
         }
     }
 
-    async fetchWeatherData() {
-        // 1. 获取地理位置 (IP定位)
-        let lat = 39.9042;  // 默认北京纬度
-        let lon = 116.4074; // 默认北京经度
-        let cityName = this.defaultCity;
+    function isCacheFresh(cached) {
+        return !!cached && Date.now() - cached.timestamp < CACHE_TTL_MS;
+    }
 
+    function writeCache(city, temp, code) {
         try {
-            // 使用更稳定且支持 HTTPS 的 ipinfo.io 接口
-            const ipRes = await fetch('https://ipinfo.io/json');
+            localStorage.setItem(CACHE_KEY, JSON.stringify({ city, temp, code, timestamp: Date.now() }));
+        } catch (e) {
+            /* 隐私模式等存储不可用时忽略 */
+        }
+    }
+
+    function clearCache() {
+        try {
+            localStorage.removeItem(CACHE_KEY);
+        } catch (e) { /* 忽略 */ }
+    }
+
+    // ===== 带 4 秒超时熔断的 fetch =====
+    function fetchWithTimeout(url) {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+        return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+    }
+
+    // 城市名必须包含中文才采用，否则视为外文/罗马化名称（如 Seolcheon），走默认城市
+    function isChineseCityName(name) {
+        return typeof name === 'string' && /[\u4e00-\u9fa5]/.test(name);
+    }
+
+    async function fetchWeatherData() {
+        // 1. IP 定位：超时/CORS 拒绝/非中文城市名 -> 优雅降级到默认城市（襄阳）
+        let lat = DEFAULT_CITY.lat;
+        let lon = DEFAULT_CITY.lon;
+        let cityName = DEFAULT_CITY.city;
+        try {
+            const ipRes = await fetchWithTimeout('https://ipinfo.io/json');
             if (ipRes.ok) {
                 const ipData = await ipRes.json();
-                // ipinfo 返回的经纬度格式是 "纬度,经度" 的字符串，需要拆分
-                if (ipData.loc) {
-                    const locParts = ipData.loc.split(',');
-                    lat = parseFloat(locParts[0]);
-                    lon = parseFloat(locParts[1]);
+                if (isChineseCityName(ipData.city) && ipData.loc) {
+                    const parts = String(ipData.loc).split(',');
+                    const l = parseFloat(parts[0]);
+                    const lo = parseFloat(parts[1]);
+                    if (Number.isFinite(l) && Number.isFinite(lo)) {
+                        lat = l;
+                        lon = lo;
+                        cityName = ipData.city;
+                    }
                 }
-                cityName = ipData.city || this.defaultCity; 
             }
         } catch (e) {
-            console.warn('IP定位失败，使用默认坐标', e);
+            console.warn('[Weather] IP 定位失败（超时或跨域被拒），使用默认定位', e && e.message);
         }
 
-        // 2. 获取真实天气 (使用免 API Key 的 Open-Meteo)
-        const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code`;
-        const weatherRes = await fetch(weatherUrl);
-        
+        // 2. Open-Meteo 当前天气：timezone=auto + 数值防御
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto`;
+        const weatherRes = await fetchWithTimeout(url);
         if (!weatherRes.ok) {
-            throw new Error('天气接口请求失败');
+            throw new Error('天气接口请求失败: HTTP ' + weatherRes.status);
+        }
+        const data = await weatherRes.json();
+
+        const temp = data.current && data.current.temperature_2m;
+        if (typeof temp !== 'number' || !Number.isFinite(temp)) {
+            throw new Error('天气数据缺少有效温度值');
         }
 
-        const data = await weatherRes.json();
-        const currentTemp = Math.round(data.current.temperature_2m); // 四舍五入取整
-        const weatherCode = data.current.weather_code;
-
+        const code = data.current.weather_code;
         return {
             city: cityName,
-            temp: currentTemp,
-            icon: this.getWeatherEmoji(weatherCode)
+            temp: Math.round(temp),
+            code: Number.isFinite(code) ? code : null,
+            icon: getWeatherEmoji(Number.isFinite(code) ? code : undefined)
         };
     }
 
-    // 将 WMO 天气代码转换为 Emoji 图标
-    getWeatherEmoji(code) {
-        if (code === 0) return '☀️'; // 晴天
-        if (code === 1 || code === 2) return '⛅'; // 多云
-        if (code === 3) return '☁️'; // 阴天
-        if (code >= 45 && code <= 48) return '🌫️'; // 雾
-        if (code >= 51 && code <= 67) return '🌧️'; // 雨
-        if (code >= 71 && code <= 77) return '❄️'; // 雪
-        if (code >= 80 && code <= 82) return '🌦️'; // 阵雨
-        if (code >= 95 && code <= 99) return '⛈️'; // 雷暴
-        return '🌡️'; // 未知天气保底
+    // ===== 渲染（仅成功时更新 DOM，失败保持当前显示，杜绝"未知"跳变）=====
+    function render(payload) {
+        const widget = document.getElementById('weather-widget');
+        if (!widget) return;
+        const cityEl = widget.querySelector('.weather-city');
+        const iconEl = widget.querySelector('.weather-icon');
+        const tempEl = widget.querySelector('.weather-temp');
+        if (cityEl) cityEl.textContent = payload.city;
+        if (iconEl) iconEl.textContent = payload.icon;
+        if (tempEl) tempEl.textContent = payload.temp + '°';
     }
 
-    updateWeatherDisplay(data) {
-        // 关键修复：这里的 ID 已经改为和 index.html 一致的 weather-widget
-        const weatherInfo = document.getElementById('weather-widget');
-        if (!weatherInfo) return;
+    let refreshing = false; // 并发保护：避免定时器/点击/后台刷新叠加
 
-        const cityElement = weatherInfo.querySelector('.weather-city');
-        const iconElement = weatherInfo.querySelector('.weather-icon');
-        const tempElement = weatherInfo.querySelector('.weather-temp');
-
-        // 更新内容
-        if (cityElement) cityElement.textContent = data.city;
-        if (iconElement) iconElement.textContent = data.icon;
-        if (tempElement) tempElement.textContent = `${data.temp}°`;
-    }
-
-    showDefaultWeather() {
-        // 关键修复：这里的 ID 已经改为和 index.html 一致的 weather-widget
-        const weatherInfo = document.getElementById('weather-widget');
-        if (!weatherInfo) return;
-
-        const cityElement = weatherInfo.querySelector('.weather-city');
-        const iconElement = weatherInfo.querySelector('.weather-icon');
-        const tempElement = weatherInfo.querySelector('.weather-temp');
-
-        if (cityElement) cityElement.textContent = '未知';
-        if (iconElement) iconElement.textContent = '☁️';
-        if (tempElement) tempElement.textContent = '--°';
-    }
-}
-
-// 快捷搜索功能
-function quickSearch(keyword) {
-    const searchInput = document.querySelector('.search-input');
-    if (searchInput) {
-        searchInput.value = keyword;
-        searchInput.focus();
-        
-        // 触发搜索
-        const searchForm = document.querySelector('.search-form');
-        if (searchForm) {
-            searchForm.dispatchEvent(new Event('submit'));
+    async function refresh() {
+        if (refreshing) return;
+        refreshing = true;
+        const iconEl = document.querySelector('#weather-widget .weather-icon');
+        if (iconEl) iconEl.classList.add('is-refreshing');
+        try {
+            const data = await fetchWeatherData();
+            render(data);
+            writeCache(data.city, data.temp, data.code);
+        } catch (e) {
+            console.warn('[Weather] 天气更新失败，保持当前显示', e && e.message);
+        } finally {
+            refreshing = false;
+            if (iconEl) iconEl.classList.remove('is-refreshing');
         }
     }
-}
 
-// 页面加载完成后初始化天气组件
-document.addEventListener('DOMContentLoaded', () => {
-    // 防御性检查：页面没有天气容器（如 privacy/404 等无组件页面）时直接跳过，
-    // 避免无谓的外部 API 请求与 30 分钟定时器
-    if (!document.getElementById('weather-widget')) return;
-    new WeatherWidget();
-});
+    // ===== 初始化 =====
+    document.addEventListener('DOMContentLoaded', () => {
+        // 防御性检查：无天气容器的页面直接跳过，不产生任何外部请求与定时器
+        const widget = document.getElementById('weather-widget');
+        if (!widget) return;
+
+        const cached = readCache();
+        if (cached && cached.city && typeof cached.temp === 'number') {
+            // 有缓存（无论是否过期）先渲染缓存内容，杜绝首屏闪烁
+            render({ city: cached.city, temp: cached.temp, icon: getWeatherEmoji(cached.code) });
+            if (isCacheFresh(cached)) {
+                // 缓存期内不发出任何外部请求
+            } else {
+                // 缓存过期：后台静默刷新，成功后替换
+                refresh();
+            }
+        } else {
+            // 无缓存：首屏保持 HTML 静态默认（襄阳 ☁️ --°），成功后更新
+            refresh();
+        }
+
+        setInterval(refresh, REFRESH_INTERVAL_MS);
+
+        // 点击手动刷新：清缓存 + 立即重新获取（图标带旋转淡入过渡）
+        widget.addEventListener('click', () => {
+            clearCache();
+            refresh();
+        });
+    });
+})();

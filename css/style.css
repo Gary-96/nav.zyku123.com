@@ -863,6 +863,21 @@ body {
     transition: all 0.2s ease;
 }
 
+/* 天气组件：可点击手动刷新 */
+.weather-info {
+    cursor: pointer;
+    user-select: none;
+}
+
+.weather-icon.is-refreshing {
+    animation: weather-icon-refresh 0.5s ease;
+}
+
+@keyframes weather-icon-refresh {
+    0%   { opacity: 0; transform: rotate(-120deg) scale(0.7); }
+    100% { opacity: 1; transform: rotate(0deg) scale(1); }
+}
+
 .weather-info:hover {
     border-color: var(--primary);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
